@@ -1,0 +1,52 @@
+{
+  "name": "@snelusha/noto",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "generate clean commit messages in a snap! ✨",
+  "license": "MIT",
+  "author": {
+    "name": "Sithija Nelusha Silva",
+    "email": "hello@snelusha.dev",
+    "url": "https://snelusha.dev"
+  },
+  "homepage": "https://github.com/snelusha/noto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snelusha/noto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/snelusha/noto/issues"
+  },
+  "main": "dist/cli.mjs",
+  "module": "dist/cli.mjs",
+  "types": "dist/cli.d.ts",
+  "bin": {
+    "noto": "bin/noto.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "start": "esno cli.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/which": "^3.0.4",
+    "@types/yargs": "^17.0.33",
+    "esno": "^4.8.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^0.0.51",
+    "@posva/prompts": "^2.4.4",
+    "ai": "^3.4.9",
+    "picocolors": "^1.1.0",
+    "tinyexec": "^0.3.0",
+    "unbuild": "^2.0.0",
+    "which": "^5.0.0",
+    "yargs": "^17.7.2"
+  }
+}

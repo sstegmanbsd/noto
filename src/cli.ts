@@ -34,8 +34,10 @@ yargs(hideBin(process.argv))
         message: "Enter your API key:",
         validate: (value) => (value ? true : "API key is required"),
       });
-      storage.apiKey = response.apiKey;
-      dump();
+      if (response.apiKey) {
+        storage.apiKey = response.apiKey;
+        dump();
+      }
       console.log(`Use ${c.bold("`noto`")} to generate commit message!`);
     }
   )

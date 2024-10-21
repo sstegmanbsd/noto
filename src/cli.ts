@@ -29,7 +29,7 @@ yargs(hideBin(process.argv))
         }
       }
       const response = await prompts({
-        type: "text",
+        type: "password",
         name: "apiKey",
         message: "Enter your API key:",
         validate: (value) => (value ? true : "API key is required"),

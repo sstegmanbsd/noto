@@ -65,5 +65,6 @@ yargs(hideBin(process.argv))
       console.log(c.white(message));
     }
   )
+  .version()
   .alias("-v", "--version")
   .alias("-h", "--help").argv;

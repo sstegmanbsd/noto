@@ -13,7 +13,7 @@ yargs(hideBin(process.argv))
   .usage("$0 [args]")
   .command(
     "config",
-    "configure",
+    "setup you API key to enable noto.",
     () => {},
     async () => {
       const storage = await load();
@@ -24,21 +24,30 @@ yargs(hideBin(process.argv))
           message: "Do you want to reset your API key?",
         });
         if (!response.reset) {
-          console.log(`Use ${c.bold("`noto`")} to generate commit message!`);
+          console.log(
+            `Use ${c.greenBright(
+              c.bold("`noto`")
+            )} to generate your commit message!`
+          );
           return process.exit(0);
         }
       }
       const response = await prompts({
         type: "password",
         name: "apiKey",
-        message: "Enter your API key:",
-        validate: (value) => (value ? true : "API key is required"),
+        message: "Please enter your API key:",
+        validate: (value) => (value ? true : "API key is required!"),
       });
       if (response.apiKey) {
         storage.apiKey = response.apiKey;
         dump();
+        console.log("API key saved successfully!");
+        console.log(
+          `Use ${c.greenBright(
+            c.bold("`noto`")
+          )} to generate your commit message!`
+        );
       }
-      console.log(`Use ${c.bold("`noto`")} to generate commit message!`);
     }
   )
   .command(

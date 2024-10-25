@@ -3,13 +3,10 @@ import { dirname, join } from "node:path";
 import { existsSync, promises as fs } from "node:fs";
 import process from "node:process";
 import which from "which";
-import c from "picocolors";
 
 import type { Buffer } from "node:buffer";
 
-import { load } from "@/storage";
-
-export const CLI_TEMP_DIR = join(os.tmpdir(), "snelusha-noto");
+export const TEMP_DIR = join(os.tmpdir(), "snelusha-noto");
 
 export function remove<T>(arr: T[], v: T) {
   const index = arr.indexOf(v);
@@ -34,10 +31,10 @@ interface TempFile {
 let counter = 0;
 
 async function openTemp(): Promise<TempFile | undefined> {
-  if (!existsSync(CLI_TEMP_DIR))
-    await fs.mkdir(CLI_TEMP_DIR, { recursive: true });
+  if (!existsSync(TEMP_DIR))
+    await fs.mkdir(TEMP_DIR, { recursive: true });
 
-  const competitivePath = join(CLI_TEMP_DIR, `.${process.pid}.${counter}`);
+  const competitivePath = join(TEMP_DIR, `.${process.pid}.${counter}`);
   counter += 1;
 
   return fs

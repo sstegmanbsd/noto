@@ -9,8 +9,8 @@ export function isGitRepository(path: string) {
 
 export async function getStagedDiff(): Promise<string | null> {
   try {
-    const fullDiff = (await x("git", ["diff", "--cached"])).stdout.toString();
-    return fullDiff;
+    const diff = (await x("git", ["diff", "--cached"])).stdout.toString();
+    return diff;
   } catch {
     return null;
   }

@@ -58,18 +58,28 @@ yargs(hideBin(process.argv))
       const storage = await load();
       if (!storage.apiKey) {
         console.log(
-          `Please run ${c.bold("`noto config`")} to set your API key.`
+          `Please run ${c.cyan(c.bold("`noto config`"))} to set your API key.`
         );
         process.exit(1);
       }
       const cwd = process.cwd();
       if (!isGitRepository(cwd)) {
-        console.log(c.red("hmm! git repository not found"));
+        console.log(
+          c.red("Oops! No Git repository found in the current directory.")
+        );
+        console.log(
+          `You can initialize one by running ${c.cyan(c.bold("`git init`"))}`
+        );
         process.exit(1);
       }
       const diff = await getStagedDiff();
       if (!diff) {
-        console.log(c.red("hmm! no staged diff found"));
+        console.log(c.red("Oops! No staged changes found to commit."));
+        console.log(
+          `Stage changes with ${c.cyan(c.bold("`git add <file>`"))} or ${c.cyan(
+            c.bold("`git add .`")
+          )} for stage all files.`
+        );
         process.exit(1);
       }
       const message = await generateCommitMessage(diff);

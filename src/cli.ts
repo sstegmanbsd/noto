@@ -1,12 +1,14 @@
 import yargs from "yargs";
 import prompts from "@posva/prompts";
 import c from "picocolors";
+import clipboardy from "clipboardy";
 
 import { hideBin } from "yargs/helpers";
 
 import { dump, load } from "@/storage";
 import { getStagedDiff, isGitRepository } from "@/git";
 import { generateCommitMessage } from "@/ai";
+import { spinner } from "@/utils";
 
 yargs(hideBin(process.argv))
   .scriptName("noto")
@@ -18,11 +20,16 @@ yargs(hideBin(process.argv))
     async () => {
       const storage = await load();
       if (storage.apiKey) {
-        const response = await prompts({
-          type: "confirm",
-          name: "reset",
-          message: "Do you want to reset your API key?",
-        });
+        const response = await prompts(
+          {
+            type: "confirm",
+            name: "reset",
+            message: "Do you want to reset your API key?",
+          },
+          {
+            onCancel: () => process.exit(0),
+          }
+        );
         if (!response.reset) {
           console.log(
             `Use ${c.greenBright(
@@ -53,8 +60,14 @@ yargs(hideBin(process.argv))
   .command(
     "*",
     "generate commit message",
-    () => {},
-    async () => {
+    (args) => {
+      args.option("copy", {
+        alias: "c",
+        type: "boolean",
+        description: "Copy the generated commit message to the clipboard.",
+      });
+    },
+    async (args) => {
       const storage = await load();
       if (!storage.apiKey) {
         console.log(
@@ -82,8 +95,21 @@ yargs(hideBin(process.argv))
         );
         process.exit(1);
       }
-      const message = await generateCommitMessage(diff);
-      console.log(c.white(message));
+
+      const spin = spinner();
+      try {
+        spin.start("Generating commit message...");
+        const message = await generateCommitMessage(diff);
+        const copy = args.copy;
+        spin.success(`Commit Message: ${c.dim(c.bold(message))}`);
+        if (copy) {
+          clipboardy.writeSync(message);
+          console.log(c.dim("message copied to clipboard!"));
+        }
+      } catch (error) {
+        spin.fail("Failed to generate commit message.");
+        process.exit(1);
+      }
     }
   )
   .version()

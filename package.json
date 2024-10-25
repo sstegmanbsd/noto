@@ -1,7 +1,7 @@
 {
   "name": "@snelusha/noto",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "generate clean commit messages in a snap! ✨",
   "license": "MIT",
   "author": {
@@ -28,7 +28,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "start": "esno cli.ts"
+    "start": "esno cli.ts",
+    "publish": "npm publish --public"
   },
   "devDependencies": {
     "@types/bun": "latest",

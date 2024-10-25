@@ -6,7 +6,7 @@ import clipboardy from "clipboardy";
 import { hideBin } from "yargs/helpers";
 
 import { dump, load } from "@/storage";
-import { getStagedDiff, isGitRepository } from "@/git";
+import { commit, getStagedDiff, isGitRepository } from "@/git";
 import { generateCommitMessage } from "@/ai";
 import { spinner } from "@/utils";
 
@@ -66,6 +66,11 @@ yargs(hideBin(process.argv))
         type: "boolean",
         description: "Copy the generated commit message to the clipboard.",
       });
+      args.option("apply", {
+        alias: "a",
+        type: "boolean",
+        description: "Commit the staged changes with the generated message.",
+      });
     },
     async (args) => {
       const storage = await load();
@@ -101,10 +106,19 @@ yargs(hideBin(process.argv))
         spin.start("Generating commit message...");
         const message = await generateCommitMessage(diff);
         const copy = args.copy;
+        const apply = args.apply;
         spin.success(`Commit Message: ${c.dim(c.bold(message))}`);
         if (copy) {
           clipboardy.writeSync(message);
-          console.log(c.dim("message copied to clipboard!"));
+          spin.success("Message copied to clipboard!");
+        }
+        if (apply) {
+          spin.start("Committing staged changes...");
+          if (!await commit(message)) {
+            spin.fail("Failed to commit staged changes.");
+            process.exit(1);
+          }
+          spin.success("Staged changes committed successfully!");
         }
       } catch (error) {
         spin.fail("Failed to generate commit message.");

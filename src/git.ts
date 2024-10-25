@@ -15,3 +15,12 @@ export async function getStagedDiff(): Promise<string | null> {
     return null;
   }
 }
+
+export async function commit(message: string): Promise<boolean> {
+  try {
+    const result = await x("git", ["commit", "-m", message]);
+    return result.stdout.includes("files changed")
+  } catch {
+    return false;
+  }
+}

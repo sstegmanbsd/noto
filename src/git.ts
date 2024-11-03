@@ -19,7 +19,7 @@ export async function getStagedDiff(): Promise<string | null> {
 export async function commit(message: string): Promise<boolean> {
   try {
     const result = await x("git", ["commit", "-m", message]);
-    return result.stdout.includes("files changed")
+    return /file(s)? changed/i.test(result.stdout.toString());
   } catch {
     return false;
   }

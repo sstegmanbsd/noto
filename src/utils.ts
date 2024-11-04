@@ -95,13 +95,24 @@ export function spinner() {
       s.start();
     },
     fail(text: string) {
-      if (s) s.fail(text);
+      if (!s) {
+        s = ora();
+      }
+      s.fail(text);
+      s = undefined;
     },
     success(text: string) {
-      if (s) s.succeed(text);
+      if (!s) {
+        s = ora();
+      }
+      s.succeed(text);
+      s = undefined;
     },
     stop() {
-      if (s) s.stop();
+      if (s) {
+        s.stop();
+        s = undefined;
+      }
     },
   };
 }

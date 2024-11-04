@@ -29,17 +29,24 @@ Here, you’ll need to input your Google GenAI API Key.
    To generate a commit message, simply run:
 
    ```bash
-   noto
+   noto                 # generate a commit message
 
-   # apply the generated message:
-   noto --apply
-   # or
-   noto -a
+   # apply generated message
+   noto --apply         # apply the message to current commit
+   noto -a              # alias for apply 
 
-   # copy the generated message:
-   noto --copy
-   # or
-   noto -c
+   # copy generated message
+   noto --copy          # copy the message to clipboard
+   noto -c              # alias for copy
+
+   # access the previously generated message
+   noto prev            # view the last message
+
+   noto prev --apply    # apply the last message to current commit
+   noto prev -a         # alias for apply
+
+   noto prev --copy     # copy the last message to clipboard
+   noto prev -c         # alias for copy
    ```
 
 ## Pro Tips

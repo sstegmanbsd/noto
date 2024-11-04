@@ -5,6 +5,7 @@ import { APP_DIR, writeFileSafe } from "@/utils";
 
 export interface Storage {
   apiKey?: string;
+  lastGeneratedMessage?: string;
 }
 
 let storage: Storage = {};

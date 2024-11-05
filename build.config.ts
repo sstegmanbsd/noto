@@ -9,6 +9,7 @@ export default defineBuildConfig({
     emitCJS: true,
     inlineDependencies: true,
   },
+  
   alias: {
     "@": resolve(__dirname, "src"),
   },

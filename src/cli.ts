@@ -8,7 +8,10 @@ import { hideBin } from "yargs/helpers";
 import { dump, load } from "@/storage";
 import { commit, getStagedDiff, isGitRepository } from "@/git";
 import { generateCommitMessage } from "@/ai";
+
 import { spinner } from "@/utils";
+
+import { version } from "../package.json";
 
 yargs(hideBin(process.argv))
   .scriptName("noto")
@@ -90,7 +93,7 @@ yargs(hideBin(process.argv))
 
       const copy = args.copy;
       const apply = args.apply;
-      
+
       spin.success(`Previous Commit Message: ${c.dim(c.bold(message))}`);
 
       if (copy) {
@@ -217,6 +220,6 @@ yargs(hideBin(process.argv))
       }
     }
   )
-  .version()
+  .version("version", version)
   .alias("-v", "--version")
   .alias("-h", "--help").argv;

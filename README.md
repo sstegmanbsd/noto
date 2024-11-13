@@ -1,6 +1,6 @@
-<h1 align="center">✨ Noto</h1>
+<h1 align="center">noto ✨</h1>
 <p align="center"><sup>(/nōto/, <em>notebook</em> in Japanese)</sup></p>
-<p align="center">Generate clean commit messages in a snap! ✨</p>
+<img src="https://github.com/snelusha/static/blob/main/noto/banner.png?raw=true" align="center"></img>
 
 <pre align="center">
   <p>npm install -g <b>@snelusha/noto</b></p>

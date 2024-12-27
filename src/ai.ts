@@ -9,7 +9,7 @@ export async function generateCommitMessage(diff: string): Promise<string> {
     apiKey: storage.apiKey,
   });
   const message = await generateText({
-    model: google("gemini-1.5-flash-latest"),
+    model: google("gemini-2.0-flash-exp"),
     messages: [
       {
         role: "system",

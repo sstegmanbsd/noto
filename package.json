@@ -41,14 +41,14 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@ai-sdk/google": "^0.0.51",
+    "@ai-sdk/google": "^1.0.12",
     "@posva/prompts": "^2.4.4",
-    "ai": "^3.4.9",
+    "ai": "^4.0.22",
     "clipboardy": "^4.0.0",
-    "ora": "^8.1.0",
-    "picocolors": "^1.1.0",
-    "tinyexec": "^0.3.0",
-    "unbuild": "^2.0.0",
+    "ora": "^8.1.1",
+    "picocolors": "^1.1.1",
+    "tinyexec": "^0.3.1",
+    "unbuild": "^3.0.1",
     "which": "^5.0.0",
     "yargs": "^17.7.2"
   }

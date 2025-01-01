@@ -1,16 +1,16 @@
-import { join } from "node:path";
-import { existsSync } from "node:fs";
+import simpleGit from "simple-git";
 
-import { x } from "tinyexec";
-
-export function isGitRepository(path: string) {
-  return existsSync(join(path, ".git"));
+export async function isGitRepository() {
+  try {
+    return await simpleGit().checkIsRepo();
+  } catch {
+    return false;
+  }
 }
 
 export async function getStagedDiff(): Promise<string | null> {
   try {
-    const diff = (await x("git", ["diff", "--cached"])).stdout.toString();
-    return diff;
+    return await simpleGit().diff(["--cached"]);
   } catch {
     return null;
   }
@@ -18,8 +18,8 @@ export async function getStagedDiff(): Promise<string | null> {
 
 export async function commit(message: string): Promise<boolean> {
   try {
-    const result = await x("git", ["commit", "-m", message]);
-    return /file(s)? changed/i.test(result.stdout.toString());
+    const result = await simpleGit().commit(message);
+    return result.summary.changes > 0;
   } catch {
     return false;
   }

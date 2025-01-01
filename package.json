@@ -47,7 +47,7 @@
     "clipboardy": "^4.0.0",
     "ora": "^8.1.1",
     "picocolors": "^1.1.1",
-    "tinyexec": "^0.3.1",
+    "simple-git": "^3.27.0",
     "unbuild": "^3.0.1",
     "which": "^5.0.0",
     "yargs": "^17.7.2",

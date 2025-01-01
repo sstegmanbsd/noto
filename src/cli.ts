@@ -13,6 +13,8 @@ import { spinner } from "@/utils";
 
 import { version } from "../package.json";
 
+import { simpleGit } from "simple-git";
+
 yargs(hideBin(process.argv))
   .scriptName("noto")
   .usage("$0 [args]")
@@ -39,7 +41,7 @@ yargs(hideBin(process.argv))
               c.bold("`noto`")
             )} to generate your commit message!`
           );
-          return process.exit(0);
+          process.exit(0);
         }
       }
       const response = await prompts({
@@ -50,8 +52,8 @@ yargs(hideBin(process.argv))
       });
       if (response.apiKey) {
         storage.apiKey = response.apiKey;
-        dump();
-        console.log("API key saved successfully!");
+        await dump();
+        console.log("API key configured successfully!");
         console.log(
           `Use ${c.greenBright(
             c.bold("`noto`")
@@ -91,19 +93,15 @@ yargs(hideBin(process.argv))
 
       const message = storage.lastGeneratedMessage;
 
-      const copy = args.copy;
-      const apply = args.apply;
-
       spin.success(`Previous Commit Message: ${c.dim(c.bold(message))}`);
 
-      if (copy) {
+      if (args.copy) {
         clipboardy.writeSync(message);
         spin.success("Message copied to clipboard!");
       }
 
-      if (apply) {
-        const cwd = process.cwd();
-        if (!isGitRepository(cwd)) {
+      if (args.apply) {
+        if (!(await isGitRepository())) {
           console.log(
             c.red("Oops! No Git repository found in the current directory.")
           );
@@ -163,8 +161,7 @@ yargs(hideBin(process.argv))
         process.exit(1);
       }
 
-      const cwd = process.cwd();
-      if (!isGitRepository(cwd)) {
+      if (!(await isGitRepository())) {
         console.log(
           c.red("Oops! No Git repository found in the current directory.")
         );
@@ -197,17 +194,14 @@ yargs(hideBin(process.argv))
         storage.lastGeneratedMessage = message;
         await dump();
 
-        const copy = args.copy;
-        const apply = args.apply;
-
         spin.success(`Commit Message: ${c.dim(c.bold(message))}`);
 
-        if (copy) {
+        if (args.copy) {
           clipboardy.writeSync(message);
           spin.success("Message copied to clipboard!");
         }
 
-        if (apply) {
+        if (args.apply) {
           if (!(await commit(message))) {
             spin.fail("Failed to commit staged changes.");
             process.exit(1);

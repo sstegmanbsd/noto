@@ -1,13 +1,15 @@
 import { generateObject } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
+import dedent from "dedent";
+
 import { z } from "zod";
 
 import { load } from "@/storage";
 
 export async function generateCommitMessage(diff: string): Promise<string> {
   const storage = await load();
-  
+
   const google = createGoogleGenerativeAI({
     apiKey: storage.apiKey,
   });
@@ -22,7 +24,7 @@ export async function generateCommitMessage(diff: string): Promise<string> {
     messages: [
       {
         role: "system",
-        content: `
+        content: dedent`
         You are a state-of-the-art AI model tasked with generating a precise Git commit message based on staged changes.
         Adhere strictly to the following instructions, ranked by priority:
     
@@ -38,7 +40,7 @@ export async function generateCommitMessage(diff: string): Promise<string> {
       },
       {
         role: "user",
-        content: `generate a commit message for the following staged changes:\n${diff}`,
+        content: dedent`generate a commit message for the following staged changes:\n${diff}`,
       },
     ],
   });

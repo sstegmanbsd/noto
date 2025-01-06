@@ -28,7 +28,6 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "start": "esno cli.ts",
     "publish": "npm publish --public"
   },
   "devDependencies": {

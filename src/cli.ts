@@ -11,9 +11,7 @@ import { generateCommitMessage } from "@/ai";
 
 import { spinner } from "@/utils";
 
-import { version } from "../package.json";
-
-import { simpleGit } from "simple-git";
+import { version } from "package";
 
 yargs(hideBin(process.argv))
   .scriptName("noto")

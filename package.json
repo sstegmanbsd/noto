@@ -17,8 +17,8 @@
   "bugs": {
     "url": "https://github.com/snelusha/noto/issues"
   },
-  "main": "dist/cli.mjs",
-  "module": "dist/cli.mjs",
+  "main": "dist/cli.js",
+  "module": "dist/cli.js",
   "types": "dist/cli.d.ts",
   "bin": {
     "noto": "bin/noto.mjs"
@@ -27,14 +27,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsup",
     "publish": "npm publish --public"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/which": "^3.0.4",
     "@types/yargs": "^17.0.33",
-    "esno": "^4.8.0"
+    "esbuild-plugin-alias": "^0.2.1",
+    "tsup": "^8.3.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -48,7 +49,6 @@
     "ora": "^8.1.1",
     "picocolors": "^1.1.1",
     "simple-git": "^3.27.0",
-    "unbuild": "^3.2.0",
     "which": "^5.0.0",
     "yargs": "^17.7.2",
     "zod": "^3.24.1"

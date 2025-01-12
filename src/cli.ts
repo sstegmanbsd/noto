@@ -9,6 +9,8 @@ import { dump, load } from "@/storage";
 import { commit, getStagedDiff, isGitRepository } from "@/git";
 import { generateCommitMessage } from "@/ai";
 
+import { config } from "commands/config";
+
 import { spinner } from "@/utils";
 
 import { version } from "package";
@@ -16,50 +18,7 @@ import { version } from "package";
 yargs(hideBin(process.argv))
   .scriptName("noto")
   .usage("$0 [args]")
-  .command(
-    "config",
-    "setup you API key to enable noto.",
-    () => {},
-    async () => {
-      const storage = await load();
-      if (storage.apiKey) {
-        const response = await prompts(
-          {
-            type: "confirm",
-            name: "reset",
-            message: "Do you want to reset your API key?",
-          },
-          {
-            onCancel: () => process.exit(0),
-          }
-        );
-        if (!response.reset) {
-          console.log(
-            `Use ${c.greenBright(
-              c.bold("`noto`")
-            )} to generate your commit message!`
-          );
-          process.exit(0);
-        }
-      }
-      const response = await prompts({
-        type: "password",
-        name: "apiKey",
-        message: "Please enter your API key:",
-        validate: (value) => (value ? true : "API key is required!"),
-      });
-      if (response.apiKey) {
-        storage.apiKey = response.apiKey;
-        await dump();
-        console.log("API key configured successfully!");
-        console.log(
-          `Use ${c.greenBright(
-            c.bold("`noto`")
-          )} to generate your commit message!`
-        );
-      }
-    }
-  )
+  .command("config", "setup you API key to enable noto.", () => {}, config)
   .command(
     "prev",
     "access previous commit message",

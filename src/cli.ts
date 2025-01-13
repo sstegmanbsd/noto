@@ -1,15 +1,14 @@
 import yargs from "yargs";
-import prompts from "@posva/prompts";
 import c from "picocolors";
 import clipboardy from "clipboardy";
 
 import { hideBin } from "yargs/helpers";
 
-import { dump, load } from "@/storage";
+import { load } from "@/storage";
 import { commit, getStagedDiff, isGitRepository } from "@/git";
-import { generateCommitMessage } from "@/ai";
 
 import { config } from "commands/config";
+import { generate } from "commands/generate";
 
 import { spinner } from "@/utils";
 
@@ -109,67 +108,7 @@ yargs(hideBin(process.argv))
         description: "Commit the staged changes with the generated message.",
       });
     },
-    async (args) => {
-      const storage = await load();
-      if (!storage.apiKey) {
-        console.log(
-          `Please run ${c.cyan(c.bold("`noto config`"))} to set your API key.`
-        );
-        process.exit(1);
-      }
-
-      if (!(await isGitRepository())) {
-        console.log(
-          c.red("Oops! No Git repository found in the current directory.")
-        );
-        console.log(
-          c.dim(
-            `You can initialize one by running ${c.cyan(c.bold("`git init`"))}`
-          )
-        );
-        process.exit(1);
-      }
-
-      const diff = await getStagedDiff();
-      if (!diff) {
-        console.log(c.red("Oops! No staged changes found to commit."));
-        console.log(
-          c.dim(
-            `Stage changes with ${c.cyan(
-              c.bold("`git add <file>`")
-            )} or ${c.cyan(c.bold("`git add .`"))} for stage all files.`
-          )
-        );
-        process.exit(1);
-      }
-
-      const spin = spinner();
-      try {
-        spin.start("Generating commit message...");
-        const message = await generateCommitMessage(diff);
-
-        storage.lastGeneratedMessage = message;
-        await dump();
-
-        spin.success(`Commit Message: ${c.dim(c.bold(message))}`);
-
-        if (args.copy) {
-          clipboardy.writeSync(message);
-          spin.success("Message copied to clipboard!");
-        }
-
-        if (args.apply) {
-          if (!(await commit(message))) {
-            spin.fail("Failed to commit staged changes.");
-            process.exit(1);
-          }
-          spin.success("Staged changes committed successfully!");
-        }
-      } catch (error) {
-        spin.fail("Failed to generate commit message.");
-        process.exit(1);
-      }
-    }
+    generate
   )
   .version("version", version)
   .alias("-v", "--version")

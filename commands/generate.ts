@@ -39,7 +39,10 @@ export async function generate(args: ArgumentsCamelCase) {
     }
 
     if (args.apply) {
-      await commit(message);
+      if (!(await commit(message))) {
+        spin.fail("Failed to commit staged changes.");
+        process.exit(1);
+      }
       spin.success("Staged changes committed!");
     }
   } catch (_) {

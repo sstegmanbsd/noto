@@ -1,7 +1,9 @@
 import os from "node:os";
 import process from "node:process";
+
 import which from "which";
 import ora from "ora";
+import c from "picocolors";
 
 import { dirname, join } from "node:path";
 import { existsSync, promises as fs } from "node:fs";
@@ -9,6 +11,9 @@ import { existsSync, promises as fs } from "node:fs";
 import type { Buffer } from "node:buffer";
 
 import type { Ora } from "ora";
+
+import { load } from "@/storage";
+import { getStagedDiff, isGitRepository } from "@/git";
 
 export const APP_DIR = join(os.homedir(), "snelusha-noto");
 
@@ -115,4 +120,37 @@ export function spinner() {
       }
     },
   };
+}
+
+export async function ensureApiKey() {
+  const storage = await load();
+  if (!storage.apiKey) {
+    console.log(
+      `Please run ${c.cyan(c.bold("`noto config`"))} to set your API key.`
+    );
+    process.exit(1);
+  }
+}
+
+export async function ensureGitRepository() {
+  if (await isGitRepository()) return;
+  console.log(c.red("Oops! No Git repository found in the current directory."));
+  console.log(
+    c.dim(`You can initialize one by running ${c.cyan(c.bold("`git init`"))}`)
+  );
+  process.exit(1);
+}
+
+export async function ensureStagedChanges() {
+  const diff = await getStagedDiff();
+  if (diff) return diff;
+  console.log(c.red("Oops! No staged changes found to commit."));
+  console.log(
+    c.dim(
+      `Stage changes with ${c.cyan(c.bold("`git add <file>`"))} or ${c.cyan(
+        c.bold("`git add .`")
+      )} for stage all files.`
+    )
+  );
+  process.exit(1);
 }

@@ -6,8 +6,11 @@ import dedent from "dedent";
 import { z } from "zod";
 
 import { load } from "@/storage";
+import { isFirstCommit } from "@/git";
 
 export async function generateCommitMessage(diff: string): Promise<string> {
+  if (await isFirstCommit()) return "chore: init repo";
+
   const storage = await load();
 
   const google = createGoogleGenerativeAI({

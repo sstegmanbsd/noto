@@ -3,7 +3,7 @@ import process from "node:process";
 
 import which from "which";
 import ora from "ora";
-import c from "picocolors";
+import pc from "picocolors";
 
 import { dirname, join } from "node:path";
 import { existsSync, promises as fs } from "node:fs";
@@ -126,7 +126,7 @@ export async function ensureApiKey() {
   const storage = await load();
   if (!storage.apiKey) {
     console.log(
-      `Please run ${c.cyan(c.bold("`noto config`"))} to set your API key.`
+      `Please run ${pc.cyan(pc.bold("`noto config`"))} to set your API key.`
     );
     process.exit(1);
   }
@@ -134,9 +134,9 @@ export async function ensureApiKey() {
 
 export async function ensureGitRepository() {
   if (await isGitRepository()) return;
-  console.log(c.red("Oops! No Git repository found in the current directory."));
+  console.log(pc.red("Oops! No Git repository found in the current directory."));
   console.log(
-    c.dim(`You can initialize one by running ${c.cyan(c.bold("`git init`"))}`)
+    pc.dim(`You can initialize one by running ${pc.cyan(pc.bold("`git init`"))}`)
   );
   process.exit(1);
 }
@@ -144,11 +144,11 @@ export async function ensureGitRepository() {
 export async function ensureStagedChanges() {
   const diff = await getStagedDiff();
   if (diff) return diff;
-  console.log(c.red("Oops! No staged changes found to commit."));
+  console.log(pc.red("Oops! No staged changes found to commit."));
   console.log(
-    c.dim(
-      `Stage changes with ${c.cyan(c.bold("`git add <file>`"))} or ${c.cyan(
-        c.bold("`git add .`")
+    pc.dim(
+      `Stage changes with ${pc.cyan(pc.bold("`git add <file>`"))} or ${pc.cyan(
+        pc.bold("`git add .`")
       )} for stage all files.`
     )
   );

@@ -1,4 +1,4 @@
-import c from "picocolors";
+import pc from "picocolors";
 import clipboardy from "clipboardy";
 
 import { load, dump } from "@/storage";
@@ -31,7 +31,7 @@ export async function generate(args: ArgumentsCamelCase) {
     storage.lastGeneratedMessage = message;
     await dump();
 
-    spin.success(`Commit Message: ${c.dim(c.bold(message))}`);
+    spin.success(`Commit Message: ${pc.dim(pc.bold(message))}`);
 
     if (args.copy) {
       clipboardy.writeSync(message);

@@ -1,5 +1,5 @@
 import prompts from "@posva/prompts";
-import c from "picocolors";
+import pc from "picocolors";
 
 import { load, dump } from "@/storage";
 
@@ -20,8 +20,8 @@ export async function config() {
 
     if (!response.reset) {
       console.log(
-        `Use ${c.greenBright(
-          c.bold("`noto`")
+        `Use ${pc.greenBright(
+          pc.bold("`noto`")
         )} to generate your commit message!`
       );
       process.exit(0);
@@ -39,7 +39,7 @@ export async function config() {
     await dump();
     console.log("API key configured successfully!");
     console.log(
-      `Use ${c.greenBright(c.bold("`noto`"))} to generate your commit message!`
+      `Use ${pc.greenBright(pc.bold("`noto`"))} to generate your commit message!`
     );
   }
 }

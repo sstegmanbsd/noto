@@ -2,9 +2,9 @@ import yargs from "yargs";
 
 import { hideBin } from "yargs/helpers";
 
-import { config } from "commands/config";
-import { generate } from "commands/generate";
-import { prev } from "commands/prev";
+import { config } from "@/commands/config";
+import { generate } from "@/commands/generate";
+import { prev } from "@/commands/prev";
 
 import { version } from "package";
 

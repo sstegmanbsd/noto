@@ -1,4 +1,4 @@
-import c from "picocolors";
+import pc from "picocolors";
 import clipboardy from "clipboardy";
 
 import { load } from "@/storage";
@@ -17,9 +17,9 @@ export async function prev(args: ArgumentsCamelCase) {
   const storage = await load();
 
   if (!storage.lastGeneratedMessage) {
-    console.log(c.red("No previous commit message found."));
+    console.log(pc.red("No previous commit message found."));
     console.log(
-      c.dim(`Generate a new message with ${c.cyan(c.bold("`noto`"))} command.`)
+      pc.dim(`Generate a new message with ${pc.cyan(pc.bold("`noto`"))} command.`)
     );
     process.exit(1);
   }
@@ -27,7 +27,7 @@ export async function prev(args: ArgumentsCamelCase) {
 
   const message = storage.lastGeneratedMessage;
 
-  spin.success(`Previous Commit Message: ${c.dim(c.bold(message))}`);
+  spin.success(`Previous Commit Message: ${pc.dim(pc.bold(message))}`);
 
   if (args.copy) {
     clipboardy.writeSync(message);

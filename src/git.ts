@@ -10,7 +10,28 @@ export async function isGitRepository() {
 
 export async function getStagedDiff(): Promise<string | null> {
   try {
-    return await simpleGit().diff(["--cached"]);
+    const stagedFiles = await simpleGit().diff(["--cached", "--name-only"]);
+
+    const files = stagedFiles.split("\n").filter(Boolean);
+
+    const excludedPatterns = [
+      "*.lock",
+      "*.lockb",
+      "*.yaml.lock",
+      "*.hcl.lock",
+      "*.resolved",
+    ];
+    const filteredFiles = files.filter(
+      (file) =>
+        !excludedPatterns.some((pattern) => {
+          const regex = new RegExp(pattern.replace("*", ".*"));
+          return regex.test(file);
+        })
+    );
+
+    if (filteredFiles.length === 0) return null;
+
+    return await simpleGit().diff(["--cached", "--", ...filteredFiles]);
   } catch {
     return null;
   }

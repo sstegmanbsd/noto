@@ -1,0 +1,40 @@
+{
+  "name": "@snelusha/noto",
+  "version": "1.0.0",
+  "description": "Generate clean commit messages in a snap! ✨",
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "Sithija Nelusha Silva",
+    "email": "hello@snelusha.dev",
+    "url": "https://snelusha.dev"
+  },
+  "homepage": "https://github.com/snelusha/noto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snelusha/noto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/snelusha/noto/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "noto": "./bin/noto.mjs"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules dist",
+    "dev": "tsup --watch --clean",
+    "build": "tsup --clean"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  }
+}

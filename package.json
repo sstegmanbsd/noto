@@ -1,19 +1,20 @@
 {
   "name": "@snelusha/noto",
   "version": "1.0.0",
-  "private": true,
-  "packageManager": "bun@1.2.0",
-  "workspaces": [
-    "packages/*"
-  ],
+  "devDependencies": {
+    "turbo": "^2.4.0"
+  },
   "license": "MIT",
+  "packageManager": "bun@1.2.0",
+  "private": true,
   "scripts": {
+    "dev": "turbo dev",
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "turbo": "^2.4.0"
-  }
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

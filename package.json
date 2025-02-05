@@ -35,18 +35,18 @@
     "@types/which": "^3.0.4",
     "@types/yargs": "^17.0.33",
     "esbuild-plugin-alias": "^0.2.1",
-    "tsup": "^8.3.5"
+    "tsup": "^8.3.6"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.0.16",
+    "@ai-sdk/google": "^1.1.10",
     "@posva/prompts": "^2.4.4",
-    "ai": "^4.0.36",
+    "ai": "^4.1.21",
     "clipboardy": "^4.0.0",
     "dedent": "^1.5.3",
-    "ora": "^8.1.1",
+    "ora": "^8.2.0",
     "picocolors": "^1.1.1",
     "simple-git": "^3.27.0",
     "which": "^5.0.0",

@@ -37,8 +37,9 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@clack/prompts": "^0.10.0",
+    "@snelusha/noto": "link:@snelusha/noto",
     "arg": "^5.0.2",
-    "picocolors": "^1.1.1",
-    "@snelusha/noto": "link:@snelusha/noto"
+    "picocolors": "^1.1.1"
   }
 }

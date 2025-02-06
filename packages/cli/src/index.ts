@@ -1,3 +1,6 @@
+import * as p from "@clack/prompts";
+import color from "picocolors";
+
 import { parse } from "@/utils/parser";
 
 import { getCommand } from "@/commands";
@@ -19,7 +22,10 @@ function main() {
 
   const { command, options: globalOptions } = parse(spec, args);
 
-  if (globalOptions["--version"]) return console.log(version);
+  console.log();
+  p.intro(`${color.bgCyan(color.black(" @snelusha/noto "))}`);
+
+  if (globalOptions["--version"]) return p.outro(version);
 
   const cmd = getCommand(command) ?? getCommand("noto");
   if (!cmd) return getCommand("noto")?.execute(globalOptions);

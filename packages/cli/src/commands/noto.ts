@@ -1,3 +1,5 @@
+import * as p from "@clack/prompts";
+
 import type { Command } from "@/types";
 
 const command: Command = {
@@ -6,7 +8,7 @@ const command: Command = {
   usage: "noto [options]",
   options: [],
   execute: (options) => {
-    console.log("noto", options);
+    p.outro("No more overthinking, Just commit in seconds!");
   },
 };
 

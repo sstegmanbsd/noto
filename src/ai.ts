@@ -18,7 +18,7 @@ export async function generateCommitMessage(diff: string): Promise<string> {
   });
 
   const { object } = await generateObject({
-    model: google("gemini-2.0-pro-exp-02-05", {
+    model: google("gemini-2.0-flash-exp", {
       structuredOutputs: false,
     }),
     schema: z.object({

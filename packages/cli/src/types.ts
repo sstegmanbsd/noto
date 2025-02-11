@@ -13,5 +13,6 @@ export interface Command {
   usage: string;
   options?: CommandOption[];
   aliases?: string[];
+  subCommands?: Command[];
   execute: (args: arg.Result<arg.Spec>) => void;
 }

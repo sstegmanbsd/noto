@@ -9,7 +9,7 @@ import { version } from "package";
 
 import type arg from "arg";
 
-const spec = {
+const globalSpec = {
   "--version": Boolean,
   "--help": Boolean,
 
@@ -20,7 +20,7 @@ const spec = {
 function main() {
   const args = process.argv.slice(2);
 
-  const { command, options: globalOptions } = parse(spec, args);
+  const { command, options: globalOptions } = parse(globalSpec, args);
 
   console.log();
   p.intro(`${color.bgCyan(color.black(" @snelusha/noto "))}`);
@@ -30,9 +30,23 @@ function main() {
   const cmd = getCommand(command) ?? getCommand("noto");
   if (!cmd) return getCommand("noto")?.execute(globalOptions);
 
-  const commandArgs = command ? args.slice(1) : args;
+  let commandArgs = command ? args.slice(1) : args;
 
-  const commandSpec = (cmd.options ?? []).reduce((acc, opt) => {
+  let selectedCommand = cmd;
+  if (cmd.subCommands && commandArgs.length) {
+    const possibleCommand = commandArgs[0];
+    const subCommand = cmd.subCommands.find(
+      (cmd) =>
+        cmd.name === possibleCommand ||
+        (cmd.aliases && cmd.aliases.includes(possibleCommand))
+    );
+    if (subCommand) {
+      selectedCommand = subCommand;
+      commandArgs = commandArgs.slice(1);
+    }
+  }
+
+  const commandSpec = (selectedCommand.options ?? []).reduce((acc, opt) => {
     acc[opt.flag] = opt.type ?? Boolean;
     if (Array.isArray(opt.alias))
       opt.alias.forEach((alias) => (acc[alias] = opt.flag));
@@ -44,7 +58,7 @@ function main() {
 
   const options = { ...globalOptions, ...commandOptions };
 
-  cmd.execute(options);
+  selectedCommand.execute(options);
 }
 
 main();

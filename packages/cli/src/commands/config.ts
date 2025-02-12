@@ -2,6 +2,8 @@ import * as p from "@clack/prompts";
 
 import { getCommand } from "@/commands";
 
+import { StorageManager } from "@/utils/storage";
+
 import type { Command } from "@/types";
 
 export const models = [
@@ -10,7 +12,7 @@ export const models = [
   "gemini-1.5-pro-latest",
   "gemini-1.5-pro",
   "gemini-1.5-flash-latest",
-  "gemini-2.0-flash-exdsfdsp",
+  "gemini-2.0-flash-exp-02-05",
 ];
 
 const model: Command = {
@@ -23,7 +25,6 @@ const model: Command = {
       options: models.map((model) => ({ label: model, value: model })),
     });
     if (p.isCancel(model)) return p.outro("cancelled");
-
     p.outro("model configured");
   },
 };

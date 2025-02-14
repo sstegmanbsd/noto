@@ -15,6 +15,44 @@ export const models = [
   "gemini-2.0-flash-exp-02-05",
 ];
 
+const key: Command = {
+  name: "key",
+  description: "configure api key",
+  usage: "noto config key [options]",
+  execute: async (options) => {
+    if ((await StorageManager.get()).llm?.apiKey) {
+      const confirm = await p.confirm({
+        message: "api key already configured, do you want to update it?",
+      });
+
+      if (!confirm) return p.outro("api key not configured");
+    }
+
+    let apiKey = options._[0];
+
+    if (!apiKey) {
+      const result = await p.text({
+        message: "enter your api key",
+      });
+
+      if (p.isCancel(result))
+        return p.outro("cancelled! api key not configured");
+
+      apiKey = result as string;
+    }
+
+    await StorageManager.update((current) => ({
+      ...current,
+      llm: {
+        ...current.llm,
+        apiKey,
+      },
+    }));
+
+    p.outro("noto api key configured");
+  },
+};
+
 const model: Command = {
   name: "model",
   description: "configure model",
@@ -29,7 +67,7 @@ const model: Command = {
   },
 };
 
-const subCommands = [model];
+const subCommands = [key, model];
 
 const command: Command = {
   name: "config",
@@ -48,6 +86,7 @@ const command: Command = {
     const cmd = getCommand(command, subCommands);
     if (!cmd) return p.outro("unknown config command");
 
+    options._ = options._.slice(1);
     cmd.execute(options);
   },
   subCommands: subCommands,

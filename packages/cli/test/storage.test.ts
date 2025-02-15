@@ -1,7 +1,6 @@
 import os from "os";
 import path from "path";
 import { promises as fs } from "fs";
-
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 import { StorageManager } from "../src/utils/storage";
@@ -10,18 +9,19 @@ const storageFileName = "storage.test.sithi";
 const tempDir = path.resolve(os.tmpdir(), ".noto");
 
 describe("StorageManager", () => {
-  let storageManager: StorageManager;
-
   beforeAll(async () => {
     await fs.mkdir(tempDir, { recursive: true });
   });
 
-  beforeEach(() => {
-    storageManager = new StorageManager(storageFileName);
-    (storageManager as any).storagePath = path.resolve(
+  beforeEach(async () => {
+    (StorageManager as any).storagePath = path.resolve(
       tempDir,
       storageFileName
     );
+    (StorageManager as any).storage = {};
+    try {
+      await fs.unlink((StorageManager as any).storagePath);
+    } catch {}
   });
 
   afterAll(async () => {
@@ -29,33 +29,33 @@ describe("StorageManager", () => {
   });
 
   it("load() returns empty storage if file does not exist", async () => {
-    const storage = await storageManager.load();
+    const storage = await StorageManager.load();
     expect(storage).toEqual({});
   });
 
   it("save() writes storage to file and load() reads it back", async () => {
-    const storage = { llm: { apiKey: "noto-api-key" } };
-    await storageManager.update(() => storage);
+    const testStorage = { llm: { apiKey: "noto-api-key" } };
+    await StorageManager.update(() => testStorage);
 
-    const newManager = new StorageManager(storageFileName);
-    (newManager as any).storagePath = path.resolve(tempDir, storageFileName);
-    const newStorage = await newManager.load();
+    (StorageManager as any).storage = {};
 
-    expect(newStorage).toEqual({ llm: { apiKey: "noto-api-key" } });
+    const loadedStorage = await StorageManager.load();
+    expect(loadedStorage).toEqual({ llm: { apiKey: "noto-api-key" } });
   });
 
-  it("get() returns a shallow copy of the storage", async () => {
-    await storageManager.update((current) => ({
-      ...current,
+  it("get() returns a deep copy of the storage", async () => {
+    await StorageManager.update(() => ({
       llm: { apiKey: "noto-api-key-updated" },
     }));
 
-    const storageCopy = storageManager.get();
+    const storageCopy = await StorageManager.get();
     expect(storageCopy).toEqual({ llm: { apiKey: "noto-api-key-updated" } });
 
     if (storageCopy.llm) storageCopy.llm.apiKey = "noto-api-key-modified";
 
-    const internalStorage = storageManager.get();
-    expect(internalStorage).toEqual({ llm: { apiKey: "noto-api-key-updated" } });
+    const internalStorage = await StorageManager.get();
+    expect(internalStorage).toEqual({
+      llm: { apiKey: "noto-api-key-updated" },
+    });
   });
 });

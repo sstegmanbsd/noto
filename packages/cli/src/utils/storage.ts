@@ -4,10 +4,13 @@ import { promises as fs } from "fs";
 
 import { z } from "zod";
 
+import { AvailableModelsSchema } from "@/ai/types";
+
 const StorageSchema = z.object({
   llm: z
     .object({
       apiKey: z.string().optional(),
+      model: AvailableModelsSchema.optional(),
     })
     .optional(),
 });
@@ -15,15 +18,14 @@ const StorageSchema = z.object({
 export type Storage = z.infer<typeof StorageSchema>;
 
 export class StorageManager {
-  private readonly storagePath: string;
+  private static readonly storagePath: string = resolve(
+    join(os.homedir(), ".noto"),
+    "storage.sithi"
+  );
 
-  private storage: Storage = {};
+  private static storage: Storage = {};
 
-  constructor(storageFileName: string = "storage.sithi") {
-    this.storagePath = resolve(join(os.homedir(), ".noto"), storageFileName);
-  }
-
-  public async load(): Promise<Storage> {
+  public static async load(): Promise<Storage> {
     try {
       await fs.access(this.storagePath);
 
@@ -39,7 +41,7 @@ export class StorageManager {
     return this.storage;
   }
 
-  public async save(): Promise<void> {
+  public static async save(): Promise<void> {
     try {
       const directory = dirname(this.storagePath);
       await fs.mkdir(directory, { recursive: true });
@@ -49,7 +51,7 @@ export class StorageManager {
     } catch {}
   }
 
-  public async update(
+  public static async update(
     updater: (current: Storage) => Storage | Promise<Storage>
   ): Promise<Storage> {
     try {
@@ -64,7 +66,8 @@ export class StorageManager {
     return this.storage;
   }
 
-  public get(): Storage {
+  public static async get(): Promise<Storage> {
+    await this.load();
     return JSON.parse(JSON.stringify(this.storage));
   }
 }

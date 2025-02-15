@@ -2,18 +2,13 @@ import * as p from "@clack/prompts";
 
 import { getCommand } from "@/commands";
 
+import { models } from "@/ai/models";
+
 import { StorageManager } from "@/utils/storage";
 
 import type { Command } from "@/types";
 
-export const models = [
-  "gemini-2.0-pro-exp-02-05",
-  "gemini-2.0-flash",
-  "gemini-1.5-pro-latest",
-  "gemini-1.5-pro",
-  "gemini-1.5-flash-latest",
-  "gemini-2.0-flash-exp-02-05",
-];
+import type { AvailableModels } from "@/ai/types";
 
 const key: Command = {
   name: "key",
@@ -60,9 +55,22 @@ const model: Command = {
   execute: async (options) => {
     const model = await p.select({
       message: "select a model",
-      options: models.map((model) => ({ label: model, value: model })),
+      initialValue: (await StorageManager.get()).llm?.model,
+      options: Object.keys(models).map((model) => ({
+        label: model,
+        value: model,
+      })),
     });
     if (p.isCancel(model)) return p.outro("cancelled");
+
+    await StorageManager.update((current) => ({
+      ...current,
+      llm: {
+        ...current.llm,
+        model: model as AvailableModels,
+      },
+    }));
+
     p.outro("model configured");
   },
 };

@@ -26,6 +26,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules dist",
     "build": "tsup --clean",
+    "dev": "tsup --clean --watch",
     "test": "tsup --clean && vitest"
   },
   "files": [
@@ -43,7 +44,9 @@
     "@snelusha/noto": "link:@snelusha/noto",
     "ai": "^4.1.40",
     "arg": "^5.0.2",
+    "dedent": "^1.5.3",
     "picocolors": "^1.1.1",
+    "simple-git": "^3.27.0",
     "tinyexec": "^0.3.2",
     "vitest": "^3.0.5",
     "zod": "^3.24.2"

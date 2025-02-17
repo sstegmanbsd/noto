@@ -1,4 +1,5 @@
 import * as p from "@clack/prompts";
+import color from "picocolors";
 
 import { getCommand } from "@/commands";
 
@@ -17,21 +18,28 @@ const key: Command = {
   execute: async (options) => {
     if ((await StorageManager.get()).llm?.apiKey) {
       const confirm = await p.confirm({
-        message: "api key already configured, do you want to update it?",
+        message: "noto api key already configured, do you want to update it?",
       });
 
-      if (!confirm) return p.outro("api key not configured");
+      if (p.isCancel(confirm) || !confirm) {
+        p.log.error(color.red("nothing changed!"));
+        console.log();
+        process.exit(1);
+      }
     }
 
     let apiKey = options._[0];
 
     if (!apiKey) {
       const result = await p.text({
-        message: "enter your api key",
+        message: "enter your noto api key",
       });
 
-      if (p.isCancel(result))
-        return p.outro("cancelled! api key not configured");
+      if (p.isCancel(result)) {
+        p.log.error(color.red("nothing changed!"));
+        console.log();
+        process.exit(1);
+      }
 
       apiKey = result as string;
     }
@@ -44,7 +52,8 @@ const key: Command = {
       },
     }));
 
-    p.outro("noto api key configured");
+    p.log.success(color.green("noto api key configured!"));
+    console.log();
   },
 };
 
@@ -61,7 +70,11 @@ const model: Command = {
         value: model,
       })),
     });
-    if (p.isCancel(model)) return p.outro("cancelled");
+    if (p.isCancel(model)) {
+      p.log.error(color.red("model not configured!"));
+      console.log();
+      process.exit();
+    }
 
     await StorageManager.update((current) => ({
       ...current,
@@ -71,7 +84,8 @@ const model: Command = {
       },
     }));
 
-    p.outro("model configured");
+    p.log.success(color.green("model configured!"));
+    console.log();
   },
 };
 
@@ -89,10 +103,17 @@ const command: Command = {
         value: cmd.name,
       })),
     });
-    if (p.isCancel(command)) return p.outro("cancelled");
+    if (p.isCancel(command)) {
+      console.log();
+      process.exit(1);
+    }
 
     const cmd = getCommand(command, subCommands);
-    if (!cmd) return p.outro("unknown config command");
+    if (!cmd) {
+      p.log.error(color.red("unknown config command"));
+      console.log();
+      process.exit(1);
+    }
 
     options._ = options._.slice(1);
     cmd.execute(options);

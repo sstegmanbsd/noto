@@ -1,26 +1,15 @@
 import { generateObject } from "ai";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
+import z from "zod";
 import dedent from "dedent";
 
-import { z } from "zod";
+import { getModel } from "@/ai/models";
 
-import { load } from "@/storage";
-import { isFirstCommit } from "@/git";
-
-export async function generateCommitMessage(diff: string): Promise<string> {
-  if (await isFirstCommit()) return "chore: init repo";
-
-  const storage = await load();
-
-  const google = createGoogleGenerativeAI({
-    apiKey: storage.apiKey,
-  });
+export const generateCommitMessage = async (diff: string) => {
+  const model = await getModel();
 
   const { object } = await generateObject({
-    model: google("gemini-2.0-flash-exp", {
-      structuredOutputs: false,
-    }),
+    model: model,
     schema: z.object({
       message: z.string(),
     }),
@@ -43,10 +32,11 @@ export async function generateCommitMessage(diff: string): Promise<string> {
       },
       {
         role: "user",
-        content: dedent`generate a commit message for the following staged changes:\n${diff}`,
+        content: dedent`generate a commit message for the following staged changes:
+        ${diff}`,
       },
     ],
   });
 
   return object.message.trim();
-}
+};

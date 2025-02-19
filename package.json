@@ -1,56 +1,20 @@
 {
   "name": "@snelusha/noto",
-  "type": "module",
-  "version": "0.4.2",
-  "description": "generate clean commit messages in a snap! ✨",
-  "license": "MIT",
-  "author": {
-    "name": "Sithija Nelusha Silva",
-    "email": "hello@snelusha.dev",
-    "url": "https://snelusha.dev"
-  },
-  "homepage": "https://github.com/snelusha/noto",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/snelusha/noto.git"
-  },
-  "bugs": {
-    "url": "https://github.com/snelusha/noto/issues"
-  },
-  "main": "dist/cli.js",
-  "module": "dist/cli.js",
-  "types": "dist/cli.d.ts",
-  "bin": {
-    "noto": "bin/noto.mjs"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "publish": "npm publish --public"
-  },
+  "version": "1.0.0",
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/which": "^3.0.4",
-    "@types/yargs": "^17.0.33",
-    "esbuild-plugin-alias": "^0.2.1",
-    "tsup": "^8.3.6"
+    "turbo": "^2.4.0"
   },
-  "peerDependencies": {
-    "typescript": "^5.6.2"
+  "license": "MIT",
+  "packageManager": "bun@1.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean"
   },
-  "dependencies": {
-    "@ai-sdk/google": "^1.1.10",
-    "@posva/prompts": "^2.4.4",
-    "ai": "^4.1.26",
-    "clipboardy": "^4.0.0",
-    "dedent": "^1.5.3",
-    "ora": "^8.2.0",
-    "picocolors": "^1.1.1",
-    "simple-git": "^3.27.0",
-    "which": "^5.0.0",
-    "yargs": "^17.7.2",
-    "zod": "^3.24.1"
-  }
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

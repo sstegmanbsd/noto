@@ -14,5 +14,5 @@ export interface Command {
   options?: CommandOption[];
   aliases?: string[];
   subCommands?: Command[];
-  execute: (args: arg.Result<arg.Spec>) => void;
+  execute: (args: arg.Result<arg.Spec> & Record<string, any>) => void;
 }

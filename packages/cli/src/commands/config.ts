@@ -71,7 +71,7 @@ const model: Command = {
       })),
     });
     if (p.isCancel(model)) {
-      p.log.error(color.red("model not configured!"));
+      p.log.error(color.red("nothing changed!"));
       console.log();
       process.exit();
     }

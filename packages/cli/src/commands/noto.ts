@@ -1,9 +1,12 @@
 import * as p from "@clack/prompts";
+import color from "picocolors";
 
 import type { Command } from "@/types";
 
 import { withAuth } from "@/middleware/auth";
 import { withRepository } from "@/middleware/git";
+import { NotoError } from "@/errors";
+import { generateCommitMessage } from "@/ai";
 
 const command: Command = {
   name: "noto",
@@ -12,7 +15,21 @@ const command: Command = {
   options: [],
   execute: withAuth(
     withRepository(async (options) => {
-      p.outro("No more overthinking, Just commit in seconds!");
+      const spin = p.spinner();
+      try {
+        const { diff } = options;
+
+        spin.start("generating commit message");
+
+        const message = await generateCommitMessage(diff);
+
+        spin.stop(color.green(message));
+        console.log();
+      } catch {
+        spin.stop(color.red("failed to generate commit message"), 1);
+        console.log();
+        process.exit(1);
+      }
     })
   ),
 };

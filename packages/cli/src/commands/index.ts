@@ -5,10 +5,10 @@ import type { Command } from "@/types";
 
 const commands: Command[] = [noto, config];
 
-export function getCommand(name: string, cmds: Command[] = commands) {
+export const getCommand = (name: string, cmds: Command[] = commands) => {
   return cmds.find((cmd) => cmd.name === name);
-}
+};
 
-export function listCommands() {
+export const listCommand = () => {
   return commands;
-}
+};

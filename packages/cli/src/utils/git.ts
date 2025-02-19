@@ -32,23 +32,20 @@ export const getBranch = async () => {
   }
 };
 
-export const getUnstagedFiles = async (): Promise<string[] | null> => {
-  try {
-    const unstagedFiles = (await git.diff(["--name-only"]))
-      .split("\n")
-      .filter(Boolean);
-    return unstagedFiles;
-  } catch {
-    return null;
-  }
-};
-
 export const getStagedFiles = async () => {
   try {
     const stagedFiles = (await git.diff(["--cached", "--name-only"]))
       .split("\n")
       .filter(Boolean);
     return stagedFiles;
+  } catch {
+    return null;
+  }
+};
+
+export const getStagedDiff = async () => {
+  try {
+    return git.diff(["--cached"]);
   } catch {
     return null;
   }

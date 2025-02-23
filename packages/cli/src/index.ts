@@ -30,7 +30,7 @@ function main() {
   const cmd = getCommand(command) ?? getCommand("noto");
   if (!cmd) return getCommand("noto")?.execute(globalOptions);
 
-  let commandArgs = command ? args.slice(1) : args;
+  let commandArgs = args;
 
   let selectedCommand = cmd;
   if (cmd.subCommands && commandArgs.length) {

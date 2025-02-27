@@ -13,6 +13,7 @@ const StorageSchema = z.object({
       model: AvailableModelsSchema.optional(),
     })
     .optional(),
+  lastGeneratedMessage: z.string().optional(),
 });
 
 export type Storage = z.infer<typeof StorageSchema>;

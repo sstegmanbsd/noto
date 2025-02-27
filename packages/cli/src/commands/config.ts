@@ -6,9 +6,9 @@ import { getCommand } from "@/commands";
 import { models } from "@/ai/models";
 
 import { StorageManager } from "@/utils/storage";
+import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
-
 import type { AvailableModels } from "@/ai/types";
 
 const key: Command = {
@@ -23,8 +23,7 @@ const key: Command = {
 
       if (p.isCancel(confirm) || !confirm) {
         p.log.error(color.red("nothing changed!"));
-        console.log();
-        process.exit(1);
+        return await exit(1);
       }
     }
 
@@ -37,8 +36,7 @@ const key: Command = {
 
       if (p.isCancel(result)) {
         p.log.error(color.red("nothing changed!"));
-        console.log();
-        process.exit(1);
+        return await exit(1);
       }
 
       apiKey = result as string;
@@ -72,8 +70,7 @@ const model: Command = {
     });
     if (p.isCancel(model)) {
       p.log.error(color.red("nothing changed!"));
-      console.log();
-      process.exit();
+      return await exit(1);
     }
 
     await StorageManager.update((current) => ({
@@ -104,15 +101,13 @@ const command: Command = {
       })),
     });
     if (p.isCancel(command)) {
-      console.log();
-      process.exit(1);
+      return await exit(1);
     }
 
     const cmd = getCommand(command, subCommands);
     if (!cmd) {
       p.log.error(color.red("unknown config command"));
-      console.log();
-      process.exit(1);
+      return await exit(1);
     }
 
     options._ = options._.slice(1);

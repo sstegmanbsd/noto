@@ -7,6 +7,7 @@ import { withAuth } from "@/middleware/auth";
 import { withRepository } from "@/middleware/git";
 
 import { commit } from "@/utils/git";
+import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
 
@@ -56,9 +57,7 @@ const command: Command = {
         }
       } catch {
         spin.stop(color.red("failed to generate commit message"), 1);
-        process.exit(1);
-      } finally {
-        process.stdout.write("\n");
+        return await exit(1);
       }
     })
   ),

@@ -22,6 +22,12 @@ const command: Command = {
   options: [
     {
       type: Boolean,
+      flag: "--type",
+      alias: "-t",
+      description: "generate commit message based on type",
+    },
+    {
+      type: Boolean,
       flag: "--copy",
       alias: "-c",
       description: "copy the generated commit message to clipboard",
@@ -47,9 +53,52 @@ const command: Command = {
 
         const isEditMode = options["--edit"];
 
+        if (options["--type"]) {
+          const type = await p.select({
+            message: "select the type of commit message",
+            options: [
+              {
+                label: "chore",
+                value: "chore",
+              },
+              {
+                label: "feat",
+                value: "feat",
+              },
+              {
+                label: "fix",
+                value: "fix",
+              },
+              {
+                label: "docs",
+                value: "docs",
+              },
+              {
+                label: "refactor",
+                value: "refactor",
+              },
+              {
+                label: "perf",
+                value: "perf",
+              },
+              {
+                label: "test",
+                value: "test",
+              },
+            ],
+          });
+
+          if (p.isCancel(type)) {
+            p.log.error(color.red("nothing selected!"));
+            return await exit(1);
+          }
+
+          options.type = type;
+        }
+
         spin.start("generating commit message");
 
-        let message = await generateCommitMessage(diff);
+        let message = await generateCommitMessage(diff, options.type);
         spin.stop(isEditMode ? color.white(message) : color.green(message));
 
         if (isEditMode) {

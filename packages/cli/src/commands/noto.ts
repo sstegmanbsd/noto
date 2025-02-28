@@ -6,6 +6,8 @@ import clipboard from "clipboardy";
 import { withAuth } from "@/middleware/auth";
 import { withRepository } from "@/middleware/git";
 
+import { StorageManager } from "@/utils/storage";
+
 import { commit } from "@/utils/git";
 import { exit } from "@/utils/process";
 
@@ -30,6 +32,12 @@ const command: Command = {
       alias: "-a",
       description: "commit the generated message directly",
     },
+    {
+      type: Boolean,
+      flag: "--edit",
+      alias: "-e",
+      description: "edit the generated commit message",
+    },
   ],
   execute: withAuth(
     withRepository(async (options) => {
@@ -37,10 +45,33 @@ const command: Command = {
       try {
         const { diff } = options;
 
+        const isEditMode = options["--edit"];
+
         spin.start("generating commit message");
 
-        const message = await generateCommitMessage(diff);
-        spin.stop(color.green(message));
+        let message = await generateCommitMessage(diff);
+        spin.stop(isEditMode ? color.white(message) : color.green(message));
+
+        if (isEditMode) {
+          const editedMessage = await p.text({
+            message: "edit the generated commit message",
+            initialValue: message,
+            placeholder: message,
+          });
+
+          if (p.isCancel(editedMessage)) {
+            p.log.error(color.red("nothing changed!"));
+            return await exit(1);
+          }
+
+          message = editedMessage;
+          p.log.step(color.green(message));
+        }
+
+        await StorageManager.update((current) => ({
+          ...current,
+          lastGeneratedMessage: message,
+        }));
 
         if (options["--copy"]) {
           clipboard.writeSync(message);
@@ -55,6 +86,8 @@ const command: Command = {
             p.log.error(color.red("failed to commit changes"));
           }
         }
+
+        process.stdout.write("\n");
       } catch {
         spin.stop(color.red("failed to generate commit message"), 1);
         return await exit(1);

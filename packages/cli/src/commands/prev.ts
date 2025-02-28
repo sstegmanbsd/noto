@@ -31,11 +31,17 @@ const command: Command = {
       alias: "-a",
       description: "commit the last generated message directly",
     },
+    {
+      type: Boolean,
+      flag: "--edit",
+      alias: "-e",
+      description: "edit the last generated commit message",
+    },
   ],
   execute: withAuth(
     withRepository(
       async (options) => {
-        const lastGeneratedMessage = (await StorageManager.get())
+        let lastGeneratedMessage = (await StorageManager.get())
           .lastGeneratedMessage;
 
         if (!lastGeneratedMessage) {
@@ -43,7 +49,35 @@ const command: Command = {
           return await exit(1);
         }
 
-        p.log.step(lastGeneratedMessage);
+        const isEditMode = options["--edit"];
+
+        p.log.step(
+          isEditMode
+            ? color.white(lastGeneratedMessage)
+            : color.green(lastGeneratedMessage)
+        );
+
+        if (options["--edit"]) {
+          const editedMessage = await p.text({
+            message: "edit the last generated commit message",
+            initialValue: lastGeneratedMessage,
+            placeholder: lastGeneratedMessage,
+          });
+
+          if (p.isCancel(editedMessage)) {
+            p.log.error(color.red("nothing changed!"));
+            return await exit(1);
+          }
+
+          lastGeneratedMessage = editedMessage;
+
+          await StorageManager.update((current) => ({
+            ...current,
+            lastGeneratedMessage: editedMessage,
+          }));
+          
+          p.log.step(color.green(lastGeneratedMessage));
+        }
 
         if (options["--copy"]) {
           clipboard.writeSync(lastGeneratedMessage);

@@ -5,7 +5,7 @@ import dedent from "dedent";
 
 import { getModel } from "@/ai/models";
 
-export const generateCommitMessage = async (diff: string) => {
+export const generateCommitMessage = async (diff: string, type?: string) => {
   const model = await getModel();
 
   const { object } = await generateObject({
@@ -28,7 +28,15 @@ export const generateCommitMessage = async (diff: string) => {
         6. Avoid mentioning file names unless a file was renamed or is critical for understanding the changes.
         7. Prioritize clarity and focus on the most impactful changes for the commit.
     
-        You are expected to generate structured outputs that align with the provided guidelines and produce a message optimized for readability and accuracy. Strictly follow all constraints to ensure high-quality results.`,
+        You are expected to generate structured outputs that align with the provided guidelines and produce a message optimized for readability and accuracy. Strictly follow all constraints to ensure high-quality results.
+        
+        ${
+          type
+            ? `if a type is provided (e.g., feat, fix), include it in the commit message in the format "type: message"
+          
+          type: ${type}`
+            : ""
+        }`,
       },
       {
         role: "user",

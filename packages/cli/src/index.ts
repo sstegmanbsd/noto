@@ -34,7 +34,7 @@ function main() {
 
   let selectedCommand = cmd;
   if (cmd.subCommands && commandArgs.length) {
-    const possibleCommand = commandArgs[0];
+    const possibleCommand = commandArgs[1];
     const subCommand = cmd.subCommands.find(
       (cmd) =>
         cmd.name === possibleCommand ||

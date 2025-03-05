@@ -1,7 +1,7 @@
 import * as p from "@clack/prompts";
 import color from "picocolors";
 
-import { parse } from "@/utils/parser";
+import { parse, safeParse } from "@/utils/parser";
 
 import { getCommand } from "@/commands";
 
@@ -54,7 +54,7 @@ function main() {
     return acc;
   }, {} as arg.Spec);
 
-  const { options: commandOptions } = parse(commandSpec, commandArgs);
+  const { options: commandOptions } = safeParse(commandSpec, commandArgs);
 
   const options = { ...globalOptions, ...commandOptions };
 

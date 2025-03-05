@@ -129,7 +129,7 @@ const command: Command = {
           }
         }
 
-        process.stdout.write("\n");
+        return await exit(0);
       } catch {
         spin.stop(color.red("failed to generate commit message"), 1);
         return await exit(1);

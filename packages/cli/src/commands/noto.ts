@@ -15,13 +15,28 @@ import type { Command } from "@/types";
 
 import { generateCommitMessage } from "@/ai";
 
+const availableTypes = [
+  "chore",
+  "feat",
+  "fix",
+  "docs",
+  "refactor",
+  "perf",
+  "test",
+];
+
+const commitTypeOptions = availableTypes.map((type) => ({
+  label: type,
+  value: type,
+}));
+
 const command: Command = {
   name: "noto",
   description: "generate commit message",
   usage: "noto [options]",
   options: [
     {
-      type: Boolean,
+      type: String,
       flag: "--type",
       alias: "-t",
       description: "generate commit message based on type",
@@ -53,39 +68,15 @@ const command: Command = {
 
         const isEditMode = options["--edit"];
 
-        if (options["--type"]) {
+        const type = options["--type"];
+
+        if (
+          (typeof type === "string" && !availableTypes.includes(type)) ||
+          typeof type === "boolean"
+        ) {
           const type = await p.select({
             message: "select the type of commit message",
-            options: [
-              {
-                label: "chore",
-                value: "chore",
-              },
-              {
-                label: "feat",
-                value: "feat",
-              },
-              {
-                label: "fix",
-                value: "fix",
-              },
-              {
-                label: "docs",
-                value: "docs",
-              },
-              {
-                label: "refactor",
-                value: "refactor",
-              },
-              {
-                label: "perf",
-                value: "perf",
-              },
-              {
-                label: "test",
-                value: "test",
-              },
-            ],
+            options: commitTypeOptions,
           });
 
           if (p.isCancel(type)) {
@@ -93,6 +84,8 @@ const command: Command = {
             return await exit(1);
           }
 
+          options.type = type;
+        } else if (typeof type === "string") {
           options.type = type;
         }
 

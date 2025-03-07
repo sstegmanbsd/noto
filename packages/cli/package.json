@@ -1,6 +1,6 @@
 {
   "name": "@snelusha/noto",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0",
   "description": "Generate clean commit messages in a snap! ✨",
   "license": "MIT",
   "type": "module",
@@ -32,6 +32,12 @@
   "files": [
     "dist",
     "README.md"
+  ],
+  "keywords": [
+    "commit",
+    "message",
+    "conventional",
+    "cli"
   ],
   "devDependencies": {
     "@types/node": "^22.12.0",

@@ -42,7 +42,7 @@ function main() {
     );
     if (subCommand) {
       selectedCommand = subCommand;
-      commandArgs = commandArgs.slice(1);
+      commandArgs = commandArgs.slice(2);
     }
   }
 

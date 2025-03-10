@@ -71,4 +71,9 @@ export class StorageManager {
     await this.load();
     return JSON.parse(JSON.stringify(this.storage));
   }
+
+  public static async clear(): Promise<void> {
+    this.storage = {};
+    await this.save();
+  }
 }

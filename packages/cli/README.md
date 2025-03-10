@@ -36,6 +36,12 @@ Optionally, if you wish to configure a different Gemini model (the default model
 noto config model
 ```
 
+If you ever need to reset your configuration, you can now run:
+
+```bash
+noto config reset
+```
+
 ## Usage
 
 Generate a new commit message:

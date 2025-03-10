@@ -86,7 +86,28 @@ const model: Command = {
   },
 };
 
-const subCommands = [key, model];
+const reset: Command = {
+  name: "reset",
+  description: "reset configuration",
+  usage: "noto config reset",
+  execute: async () => {
+    const confirm = await p.confirm({
+      message: "are you sure you want to reset the configuration?",
+    });
+
+    if (p.isCancel(confirm) || !confirm) {
+      p.log.error(color.red("nothing changed!"));
+      return await exit(1);
+    }
+
+    await StorageManager.clear();
+
+    p.log.success(color.green("configuration reset!"));
+    console.log();
+  },
+}
+
+const subCommands = [key, model, reset];
 
 const command: Command = {
   name: "config",

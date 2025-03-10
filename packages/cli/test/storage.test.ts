@@ -58,4 +58,14 @@ describe("StorageManager", () => {
       llm: { apiKey: "noto-api-key-updated" },
     });
   });
+
+  it("clear() removes all data from storage", async () => {
+    await StorageManager.update(() => ({
+      llm: { apiKey: "noto-api-key" },
+    }));
+
+    await StorageManager.clear();
+    const storage = await StorageManager.get();
+    expect(storage).toEqual({});
+  });
 });

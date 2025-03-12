@@ -112,7 +112,7 @@ const command: Command = {
         }
         console.log();
       },
-      { silent: true }
+      { enabled: false }
     )
   ),
 };

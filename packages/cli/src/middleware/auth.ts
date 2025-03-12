@@ -9,16 +9,16 @@ import { exit } from "@/utils/process";
 import type { Command } from "@/types";
 
 interface WithAuthOptions {
-  silent?: boolean;
+  enabled?: boolean;
 }
 
 export const withAuth = (
   fn: Command["execute"],
-  options: WithAuthOptions = {}
+  options: WithAuthOptions = { enabled: true }
 ): Command["execute"] => {
   return async (opts) => {
     const storage = await StorageManager.get();
-    if (!storage.llm?.apiKey && !options.silent) {
+    if (!storage.llm?.apiKey && options.enabled) {
       p.log.error(
         dedent`${color.red("noto api key is missing.")}
         ${color.dim(`run ${color.cyan("`noto config key`")} to set it up.`)}`

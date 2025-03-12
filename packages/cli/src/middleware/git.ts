@@ -8,16 +8,16 @@ import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
 interface WithRepositoryOptions {
-  silent?: boolean;
+  enabled?: boolean;
 }
 
 export const withRepository = (
   fn: Command["execute"],
-  options: WithRepositoryOptions = {}
+  options: WithRepositoryOptions = { enabled: true }
 ): Command["execute"] => {
   return async (opts) => {
     const isRepo = await isGitRepository();
-    if (!isRepo && !options.silent) {
+    if (!isRepo && options.enabled) {
       p.log.error(
         dedent`${color.red("no git repository found in cwd.")}
         ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
@@ -28,7 +28,7 @@ export const withRepository = (
     opts.isRepo = isRepo;
 
     const diff = await getStagedDiff();
-    if (!diff && !options.silent) {
+    if (!diff && options.enabled) {
       p.log.error(
         dedent`${color.red("no staged changes found.")}
         ${color.dim(`run ${color.cyan("`git add <file>`")} or ${color.cyan("`git add .`")} to stage changes.`)}`

@@ -31,7 +31,18 @@ export const models: Record<AvailableModels, LanguageModelV1> = {
 export const availableModels = Object.keys(models) as AvailableModels[];
 
 export const getModel = async () => {
-  const model = (await StorageManager.get()).llm?.model ?? defaultModel;
+  let model = (await StorageManager.get()).llm?.model;
+
+  if (!model) {
+    model = defaultModel;
+    await StorageManager.update((current) => ({
+      ...current,
+      llm: {
+        ...current.llm,
+        model: model as AvailableModels,
+      },
+    }));
+  }
 
   if (!availableModels.includes(model)) {
     throw new NotoError({

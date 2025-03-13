@@ -27,6 +27,11 @@ function main() {
 
   if (globalOptions["--version"]) return p.outro(version);
 
+  if (globalOptions["--help"]) {
+    getCommand("help")?.execute(globalOptions);
+    return;
+  }
+
   const cmd = getCommand(command) ?? getCommand("noto");
   if (!cmd) return getCommand("noto")?.execute(globalOptions);
 

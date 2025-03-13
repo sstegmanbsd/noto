@@ -31,6 +31,7 @@
   },
   "files": [
     "dist",
+    "bin",
     "README.md"
   ],
   "keywords": [

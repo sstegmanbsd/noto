@@ -7,8 +7,16 @@ import { cn } from "@/styles/utils";
 import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: "noto",
+  title: "@snelusha/noto",
   description: "Generate clean commit messages in a snap! ✨",
+  creator: "@sneluha",
+  keywords: ["commit", "message", "generator", "cli", "tool"],
+  authors: [
+    {
+      name: "Sithija Nelusha",
+      url: "https://snelusha.dev",
+    },
+  ],
 };
 
 export const viewport: Viewport = {

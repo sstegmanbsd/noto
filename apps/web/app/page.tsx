@@ -50,14 +50,19 @@ export default function Page() {
           <InstallCommand />
         </motion.div>
         <motion.div
-          className="text-muted-foreground/80 *:hover:text-secondary-foreground flex gap-2 font-mono *:transition-colors"
+          className="text-muted-foreground/80 *:hover:text-secondary-foreground flex justify-between gap-2 font-mono *:transition-colors"
           initial="initial"
           animate="animate"
           variants={variants}
           transition={{ duration: 0.6, delay: 2.5 }}
         >
-          <Link href="https://github.com/snelusha/noto">[github]</Link>
-          <Link href="https://www.npmjs.com/package/@snelusha/noto">[npm]</Link>
+          <Link href="https://github.com/snelusha/noto#readme">[docs]</Link>
+          <div className="flex items-center gap-2">
+            <Link href="https://github.com/snelusha/noto">[github]</Link>
+            <Link href="https://www.npmjs.com/package/@snelusha/noto">
+              [npm]
+            </Link>
+          </div>
         </motion.div>
       </div>
     </main>

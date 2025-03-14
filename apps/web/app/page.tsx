@@ -1,6 +1,9 @@
 import * as React from "react";
 
 import * as motion from "motion/react-client";
+
+import { InstallCommand } from "@/components/install-command";
+
 import { cn } from "@/styles/utils";
 
 export default function Page() {
@@ -37,16 +40,14 @@ export default function Page() {
             </motion.p>
           ))}
         </motion.div>
-        <motion.h1
-          className="text-muted-foreground/60 font-mono text-base tracking-tight"
+        <motion.div
           initial="initial"
           animate="animate"
           variants={variants}
           transition={{ duration: 0.6, delay: 2 }}
         >
-          npm install -g&nbsp;
-          <span className="text-secondary-foreground">@snelusha/noto</span>
-        </motion.h1>
+          <InstallCommand />
+        </motion.div>
       </div>
     </main>
   );

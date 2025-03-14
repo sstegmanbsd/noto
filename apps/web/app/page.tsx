@@ -5,6 +5,7 @@ import * as motion from "motion/react-client";
 import { InstallCommand } from "@/components/install-command";
 
 import { cn } from "@/styles/utils";
+import Link from "next/link";
 
 export default function Page() {
   const variants = {
@@ -47,6 +48,16 @@ export default function Page() {
           transition={{ duration: 0.6, delay: 2 }}
         >
           <InstallCommand />
+        </motion.div>
+        <motion.div
+          className="text-muted-foreground/80 *:hover:text-secondary-foreground flex gap-2 font-mono *:transition-colors"
+          initial="initial"
+          animate="animate"
+          variants={variants}
+          transition={{ duration: 0.6, delay: 2.5 }}
+        >
+          <Link href="https://github.com/snelusha/noto">[github]</Link>
+          <Link href="https://www.npmjs.com/package/@snelusha/noto">[npm]</Link>
         </motion.div>
       </div>
     </main>

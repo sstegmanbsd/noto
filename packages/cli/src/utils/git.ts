@@ -1,5 +1,7 @@
 import simpleGit from "simple-git";
 
+export const INIT_COMMIT_MESSAGE = "chore: init repo";
+
 export const git = simpleGit();
 
 export const isGitRepository = async () => {
@@ -13,9 +15,9 @@ export const getCommitCount = async () => {
   } catch (error) {
     const message = (error as Error).message;
     const regex = /(ambiguous argument.*HEAD|unknown revision or path.*HEAD)/;
-
     if (regex.test(message)) return 0;
-    return null;
+
+    throw error;
   }
 };
 

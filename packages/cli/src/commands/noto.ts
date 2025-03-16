@@ -8,7 +8,7 @@ import { withRepository } from "@/middleware/git";
 
 import { StorageManager } from "@/utils/storage";
 
-import { commit } from "@/utils/git";
+import { commit, isFirstCommit, INIT_COMMIT_MESSAGE } from "@/utils/git";
 import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
@@ -91,7 +91,14 @@ const command: Command = {
 
         spin.start("generating commit message");
 
-        let message = await generateCommitMessage(diff, options.type);
+        let message = null;
+
+        if (!(await isFirstCommit())) {
+          message = await generateCommitMessage(diff, options.type);
+        } else {
+          message = INIT_COMMIT_MESSAGE;
+        }
+
         spin.stop(isEditMode ? color.white(message) : color.green(message));
 
         if (isEditMode) {

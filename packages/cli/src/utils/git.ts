@@ -1,5 +1,7 @@
 import simpleGit from "simple-git";
 
+export const INIT_COMMIT_MESSAGE = "chore: init repo";
+
 export const git = simpleGit();
 
 export const isGitRepository = async () => {

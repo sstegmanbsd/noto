@@ -13,9 +13,9 @@ export const getCommitCount = async () => {
   } catch (error) {
     const message = (error as Error).message;
     const regex = /(ambiguous argument.*HEAD|unknown revision or path.*HEAD)/;
-
     if (regex.test(message)) return 0;
-    return null;
+
+    throw error;
   }
 };
 

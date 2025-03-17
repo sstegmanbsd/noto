@@ -12,7 +12,8 @@
   "homepage": "https://noto.snelusha.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snelusha/noto.git"
+    "url": "git+https://github.com/snelusha/noto.git",
+    "directory": "packages/cli"
   },
   "bugs": {
     "url": "https://github.com/snelusha/noto/issues"

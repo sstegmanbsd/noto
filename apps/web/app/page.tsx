@@ -7,6 +7,7 @@ import * as motion from "motion/react-client";
 import { InstallCommand } from "@/components/install-command";
 
 import { cn } from "@/styles/utils";
+import { GithubStars } from "@/components/github-stars";
 
 export default function Page() {
   const variants = {
@@ -18,15 +19,27 @@ export default function Page() {
     <main className="grid min-h-dvh place-items-center">
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-4">
-          <motion.p
-            className="text-muted-foreground/80 font-mono select-none"
-            initial="initial"
-            animate="animate"
-            variants={variants}
-            transition={{ duration: 0.6, delay: 2.5 }}
-          >
-            v1.0 is out!
-          </motion.p>
+          <div className="flex justify-between">
+            <motion.p
+              className="text-muted-foreground/80 font-mono select-none"
+              initial="initial"
+              animate="animate"
+              variants={variants}
+              transition={{ duration: 0.6, delay: 2.5 }}
+            >
+              v1.0 is out!
+            </motion.p>
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={variants}
+              transition={{ duration: 0.6, delay: 2.5 }}
+            >
+              <React.Suspense fallback={<GithubStars />}>
+                <GithubStars />
+              </React.Suspense>
+            </motion.div>
+          </div>
           <motion.div
             className="text-muted-foreground/50 text-3xl font-[450] select-none"
             initial="initial"

@@ -26,6 +26,7 @@ export const models: Record<AvailableModels, LanguageModelV1> = {
   ),
   "gemini-2.0-flash-exp": google("gemini-2.0-flash-exp"),
   "gemini-2.0-pro-exp-02-05": google("gemini-2.0-pro-exp-02-05"),
+  "gemini-2.5-pro-exp-03-25": google("gemini-2.5-pro-exp-03-25"),
 };
 
 export const availableModels = Object.keys(models) as AvailableModels[];

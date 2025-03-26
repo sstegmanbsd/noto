@@ -73,6 +73,17 @@ const model: Command = {
       return await exit(1);
     }
 
+    if (model === "gemini-2.5-pro-exp-03-25") {
+      const confirm = await p.confirm({
+        message:
+          "this model has a rate limit of 5 RPM (requests per minute) 50 requests per day, do you want to continue?",
+      });
+      if (p.isCancel(confirm) || !confirm) {
+        p.log.error(color.red("nothing changed!"));
+        return await exit(1);
+      }
+    }
+
     await StorageManager.update((current) => ({
       ...current,
       llm: {
@@ -105,7 +116,7 @@ const reset: Command = {
     p.log.success(color.green("configuration reset!"));
     console.log();
   },
-}
+};
 
 const subCommands = [key, model, reset];
 

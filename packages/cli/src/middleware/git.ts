@@ -16,20 +16,20 @@ export const withRepository = (
   options: WithRepositoryOptions = { enabled: true }
 ): Command["execute"] => {
   return async (opts) => {
-    if (options.enabled) {
-      const isRepo = await isGitRepository();
-      if (!isRepo) {
-        p.log.error(
-          dedent`${color.red("no git repository found in cwd.")}
+    const isRepo = await isGitRepository();
+    if (!isRepo && options.enabled) {
+      p.log.error(
+        dedent`${color.red("no git repository found in cwd.")}
           ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
-        );
-        return await exit(1);
-      }
+      );
+      return await exit(1);
+    }
 
-      opts.isRepo = isRepo;
+    opts.isRepo = isRepo;
 
+    if (isRepo) {
       const diff = await getStagedDiff();
-      if (!diff) {
+      if (!diff && options.enabled) {
         p.log.error(
           dedent`${color.red("no staged changes found.")}
           ${color.dim(`run ${color.cyan("`git add <file>`")} or ${color.cyan("`git add .`")} to stage changes.`)}`

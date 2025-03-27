@@ -16,27 +16,29 @@ export const withRepository = (
   options: WithRepositoryOptions = { enabled: true }
 ): Command["execute"] => {
   return async (opts) => {
-    const isRepo = await isGitRepository();
-    if (!isRepo && options.enabled) {
-      p.log.error(
-        dedent`${color.red("no git repository found in cwd.")}
-        ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
-      );
-      return await exit(1);
+    if (options.enabled) {
+      const isRepo = await isGitRepository();
+      if (!isRepo) {
+        p.log.error(
+          dedent`${color.red("no git repository found in cwd.")}
+          ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
+        );
+        return await exit(1);
+      }
+
+      opts.isRepo = isRepo;
+
+      const diff = await getStagedDiff();
+      if (!diff) {
+        p.log.error(
+          dedent`${color.red("no staged changes found.")}
+          ${color.dim(`run ${color.cyan("`git add <file>`")} or ${color.cyan("`git add .`")} to stage changes.`)}`
+        );
+        return await exit(1);
+      }
+
+      opts.diff = diff;
     }
-
-    opts.isRepo = isRepo;
-
-    const diff = await getStagedDiff();
-    if (!diff && options.enabled) {
-      p.log.error(
-        dedent`${color.red("no staged changes found.")}
-        ${color.dim(`run ${color.cyan("`git add <file>`")} or ${color.cyan("`git add .`")} to stage changes.`)}`
-      );
-      return await exit(1);
-    }
-
-    opts.diff = diff;
 
     return fn(opts);
   };

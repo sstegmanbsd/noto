@@ -47,7 +47,7 @@ export const getStagedFiles = async () => {
 
 export const getStagedDiff = async () => {
   try {
-    return git.diff(["--cached"]);
+    return git.diff(["--cached", "--", ":!*.lock"]);
   } catch {
     return null;
   }

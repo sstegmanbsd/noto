@@ -66,8 +66,8 @@ export const commit = async (message: string) => {
 
 export const push = async () => {
   try {
-    const { pushed } = await git.push();
-    return Boolean(pushed.length);
+    const result = await git.push();
+    return result.update || (result.pushed && result.pushed.length > 0);
   } catch {
     return false;
   }

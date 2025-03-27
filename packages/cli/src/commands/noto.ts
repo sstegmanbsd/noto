@@ -8,7 +8,7 @@ import { withRepository } from "@/middleware/git";
 
 import { StorageManager } from "@/utils/storage";
 
-import { commit, isFirstCommit, INIT_COMMIT_MESSAGE } from "@/utils/git";
+import { commit, isFirstCommit, INIT_COMMIT_MESSAGE, push } from "@/utils/git";
 import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
@@ -52,6 +52,12 @@ const command: Command = {
       flag: "--apply",
       alias: "-a",
       description: "commit the generated message directly",
+    },
+    {
+      type: Boolean,
+      flag: "--push",
+      alias: "-p",
+      description: "commit and push the changes",
     },
     {
       type: Boolean,
@@ -133,6 +139,15 @@ const command: Command = {
             p.log.step(color.dim("commit successful"));
           } else {
             p.log.error(color.red("failed to commit changes"));
+          }
+        }
+
+        if (options["--push"]) {
+          const success = await push();
+          if (success) {
+            p.log.step(color.dim("push successful"));
+          } else {
+            p.log.error(color.red("failed to push changes"));
           }
         }
 

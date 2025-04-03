@@ -44,7 +44,8 @@
   "devDependencies": {
     "@types/node": "^22.13.13",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.1"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.3",
@@ -56,7 +57,6 @@
     "picocolors": "^1.1.1",
     "simple-git": "^3.27.0",
     "tinyexec": "^0.3.2",
-    "vitest": "^3.0.9",
     "zod": "^3.24.2"
   }
 }

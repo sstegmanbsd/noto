@@ -5,7 +5,7 @@
     "turbo": "^2.4.4"
   },
   "license": "MIT",
-  "packageManager": "bun@1.2.6",
+  "packageManager": "bun@1.2.8",
   "private": true,
   "scripts": {
     "dev": "turbo dev",

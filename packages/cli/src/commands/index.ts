@@ -2,7 +2,7 @@ import noto from "@/commands/noto";
 import prev from "@/commands/prev";
 import checkout from "@/commands/checkout";
 import config from "@/commands/config";
-import help from "./help";
+import help from "@/commands/help";
 
 import type { Command } from "@/types";
 

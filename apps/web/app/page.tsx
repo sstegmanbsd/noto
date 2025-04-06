@@ -5,9 +5,10 @@ import Link from "next/link";
 import * as motion from "motion/react-client";
 
 import { InstallCommand } from "@/components/install-command";
+import { GithubStars } from "@/components/github-stars";
+import { NpmDownloads } from "@/components/npm-downloads";
 
 import { cn } from "@/styles/utils";
-import { GithubStars } from "@/components/github-stars";
 
 export default function Page() {
   const variants = {
@@ -30,11 +31,15 @@ export default function Page() {
               v1.0 is out!
             </motion.p>
             <motion.div
+              className="gap-4 flex items-center"
               initial="initial"
               animate="animate"
               variants={variants}
               transition={{ duration: 0.6, delay: 2.5 }}
             >
+              <React.Suspense fallback={<NpmDownloads />}>
+                <NpmDownloads />
+              </React.Suspense>
               <React.Suspense fallback={<GithubStars />}>
                 <GithubStars />
               </React.Suspense>

@@ -8,6 +8,7 @@ import { cn } from "@/styles/utils";
 
 const COOKIE_NAME = "github-stars";
 const ONE_HOUR = 60 * 60 * 1000;
+const ONE_DAY = 24 * ONE_HOUR;
 
 const formatStars = (count: number | null) => {
   if (!count) return null;
@@ -22,7 +23,7 @@ const getCookie = (name: string): string | null => {
 };
 
 const setCookie = (name: string, value: string) => {
-  const expires = new Date(Date.now() + ONE_HOUR).toUTCString();
+  const expires = new Date(Date.now() + ONE_DAY).toUTCString();
   document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
 };
 

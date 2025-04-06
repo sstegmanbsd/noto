@@ -8,7 +8,6 @@ import { cn } from "@/styles/utils";
 
 const COOKIE_NAME = "npm-downloads";
 const ONE_HOUR = 60 * 60 * 1000;
-const ONE_DAY = 24 * ONE_HOUR;
 
 const formatDownloads = (count: number | null) => {
   if (count === null) return null;
@@ -23,7 +22,7 @@ const getCookie = (name: string): string | null => {
 };
 
 const setCookie = (name: string, value: string) => {
-  const expires = new Date(Date.now() + ONE_DAY).toUTCString();
+  const expires = new Date(Date.now() + ONE_HOUR).toUTCString();
   document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
 };
 

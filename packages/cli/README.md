@@ -100,6 +100,13 @@ noto prev --amend --edit # or simply: noto prev --amend -e
 
 Note: All of the flags shown above (`--apply`, `--copy`, `--type`, `--edit`) can also be used with the `noto prev` command to work with the previously generated commit message.
 
+Switch between branches in you git repo with an interactive prompt:
+
+```bash
+noto checkout
+```
+ 
+
 ## Pro Tips
 
 - 🚀 Get fast commits on the fly with `noto -e -a` to streamline your workflow!

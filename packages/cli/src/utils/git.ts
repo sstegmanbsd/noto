@@ -73,3 +73,32 @@ export const push = async () => {
     return false;
   }
 };
+
+export const getCurrentBranch = async () => {
+  try {
+    const branch = await git.branch();
+    return branch.current;
+  } catch {
+    return null;
+  }
+};
+
+export const getBranches = async () => {
+  try {
+    const branches = await git.branch();
+    return Object.keys(branches.branches).filter(
+      (b) => !b.startsWith("remotes/")
+    );
+  } catch {
+    return null;
+  }
+};
+
+export const checkout = async (branch: string) => {
+  try {
+    await git.checkout(branch);
+    return true;
+  } catch {
+    return false;
+  }
+};

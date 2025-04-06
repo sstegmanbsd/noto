@@ -53,11 +53,12 @@ export const getStagedDiff = async () => {
   }
 };
 
-export const commit = async (message: string) => {
+export const commit = async (message: string, amend?: boolean) => {
   try {
+    const options = amend ? { "--amend": null } : undefined;
     const {
       summary: { changes },
-    } = await git.commit(message);
+    } = await git.commit(message, undefined, options);
     return Boolean(changes);
   } catch {
     return false;

@@ -90,6 +90,14 @@ Retrieve the previously generated commit message:
 noto prev
 ```
 
+Amend the previously generated commit message:
+
+```bash
+noto prev --amend --edit # or simply: noto prev --amend -e
+```
+
+> Note: When using the `--amend` flag with the noto prev command, the `--edit` (`-e`) flag is also required. This combination will allow you to modify (amend) the previous commit message before applying it.
+
 Note: All of the flags shown above (`--apply`, `--copy`, `--type`, `--edit`) can also be used with the `noto prev` command to work with the previously generated commit message.
 
 ## Pro Tips

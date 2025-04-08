@@ -59,7 +59,7 @@ const model: Command = {
   name: "model",
   description: "configure model",
   usage: "noto config model [options]",
-  execute: async (options) => {
+  execute: async () => {
     const model = await p.select({
       message: "select a model",
       initialValue: (await StorageManager.get()).llm?.model,

@@ -83,12 +83,12 @@ export const getCurrentBranch = async () => {
   }
 };
 
-export const getBranches = async () => {
+export const getBranches = async (remote?: boolean) => {
   try {
     const branches = await git.branch();
-    return Object.keys(branches.branches).filter(
-      (b) => !b.startsWith("remotes/")
-    );
+    return remote
+      ? branches.all
+      : Object.keys(branches.branches).filter((b) => !b.startsWith("remotes/"));
   } catch {
     return null;
   }

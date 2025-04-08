@@ -1,6 +1,7 @@
 import * as p from "@clack/prompts";
 import color from "picocolors";
 
+import clipboard from "clipboardy";
 import dedent from "dedent";
 
 import { withRepository } from "@/middleware/git";
@@ -14,6 +15,14 @@ const command: Command = {
   name: "checkout",
   description: "checkout a branch",
   usage: "checkout [options]",
+  options: [
+    {
+      type: Boolean,
+      flag: "--copy",
+      alias: "-c",
+      description: "copy the selected branch to clipboard",
+    },
+  ],
   execute: withRepository(
     async (options) => {
       if (!options.isRepo) {
@@ -52,6 +61,12 @@ const command: Command = {
       if (!branch) {
         p.log.error("no branch selected");
         return await exit(1);
+      }
+
+      if (options["--copy"]) {
+        clipboard.writeSync(branch);
+        p.log.success(`copied ${color.green(branch)} to clipboard`);
+        return await exit(0);
       }
 
       if (branch === currentBranch) {

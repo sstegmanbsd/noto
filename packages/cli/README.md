@@ -112,6 +112,12 @@ To copy the selected branch to your clipboard immediately after choosing it, use
 noto checkout -c
 ```
 
+To list all branches, including remote branches, use the -r flag (note: while remote branches are listed, you currently cannot checkout to remote branches):
+
+```bash
+noto checkout -r
+```
+
 ## Pro Tips
 
 - 🚀 Get fast commits on the fly with `noto -e -a` to streamline your workflow!

@@ -105,7 +105,12 @@ Switch between branches in you git repo with an interactive prompt:
 ```bash
 noto checkout
 ```
- 
+
+To copy the selected branch to your clipboard immediately after choosing it, use the new `-c` flag:
+
+```bash
+noto checkout -c
+```
 
 ## Pro Tips
 

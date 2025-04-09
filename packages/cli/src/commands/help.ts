@@ -11,7 +11,7 @@ const help: Command = {
   execute: async (options) => {
     const command = getCommand(options._[0]);
 
-    if (command) {
+    if (command && command.name !== "help") {
       console.log();
       console.log(color.bold("Usage"));
       console.log(`  ${command.usage}`);

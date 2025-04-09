@@ -78,12 +78,12 @@ const command: Command = {
       const remote = options["--remote"];
 
       const branches = await getBranches(remote);
-      const currentBranch = await getCurrentBranch();
-
       if (!branches) {
         p.log.error("failed to fetch branches");
         return await exit(1);
       }
+
+      const currentBranch = await getCurrentBranch();
 
       const branch = await p.select({
         message: "select a branch",

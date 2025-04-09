@@ -60,12 +60,6 @@ const command: Command = {
   options: [
     {
       type: Boolean,
-      flag: "--copy",
-      alias: "-c",
-      description: "copy the selected branch to clipboard",
-    },
-    {
-      type: Boolean,
       flag: "--remote",
       alias: "-r",
       description: "list branches including remotes",
@@ -113,10 +107,8 @@ const command: Command = {
         return await exit(1);
       }
 
-      if (options["--copy"]) {
-        clipboard.writeSync(branch);
-        p.log.success(`${color.green("copied to clipboard!")}`);
-      }
+      clipboard.writeSync(branch);
+      p.log.success(`${color.green("copied to clipboard!")}`);
 
       await exit(0);
     },

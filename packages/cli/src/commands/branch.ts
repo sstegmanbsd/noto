@@ -15,6 +15,14 @@ const current: Command = {
   name: "current",
   description: "get current branch",
   usage: "branch current",
+  options: [
+    {
+      type: Boolean,
+      flag: "--copy",
+      alias: "-c",
+      description: "copy the selected branch to clipboard",
+    },
+  ],
   execute: withRepository(
     async (options) => {
       if (!options.isRepo) {
@@ -33,7 +41,12 @@ const current: Command = {
       }
 
       p.log.success(`current branch: ${color.bold(branch)}`);
-      
+
+      if (options["--copy"]) {
+        clipboard.writeSync(branch);
+        p.log.success(`${color.green("copied to clipboard!")}`);
+      }
+
       await exit(0);
     },
     { enabled: false }

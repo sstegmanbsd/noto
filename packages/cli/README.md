@@ -109,13 +109,13 @@ noto checkout
 To copy the selected branch to your clipboard immediately after choosing it, use the new `-c` flag:
 
 ```bash
-noto checkout -c
+noto branch
 ```
 
-To list all branches, including remote branches, use the -r flag (note: while remote branches are listed, you currently cannot checkout to remote branches):
+To list all branches, including remote branches, use the -r flag
 
 ```bash
-noto checkout -r
+noto branch -r
 ```
 
 ## Pro Tips

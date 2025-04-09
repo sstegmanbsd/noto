@@ -6,15 +6,15 @@ import dedent from "dedent";
 
 import { withRepository } from "@/middleware/git";
 
-import { checkout, getCurrentBranch, getBranches } from "@/utils/git";
+import { getBranches, getCurrentBranch } from "@/utils/git";
 import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
 
-const command: Command = {
-  name: "checkout",
-  description: "checkout a branch",
-  usage: "checkout [options]",
+const current: Command = {
+  name: "current",
+  description: "get current branch",
+  usage: "branch current",
   options: [
     {
       type: Boolean,
@@ -33,7 +33,51 @@ const command: Command = {
         return await exit(1);
       }
 
-      const branches = await getBranches();
+      const branch = await getCurrentBranch();
+
+      if (!branch) {
+        p.log.error("failed to fetch current branch");
+        return await exit(1);
+      }
+
+      p.log.success(`current branch: ${color.bold(branch)}`);
+
+      if (options["--copy"]) {
+        clipboard.writeSync(branch);
+        p.log.success(`${color.green("copied to clipboard!")}`);
+      }
+
+      await exit(0);
+    },
+    { enabled: false }
+  ),
+};
+
+const command: Command = {
+  name: "branch",
+  description: "list branches",
+  usage: "branch [options]",
+  options: [
+    {
+      type: Boolean,
+      flag: "--remote",
+      alias: "-r",
+      description: "list branches including remotes",
+    },
+  ],
+  execute: withRepository(
+    async (options) => {
+      if (!options.isRepo) {
+        p.log.error(
+          dedent`${color.red("no git repository found in cwd.")}
+            ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
+        );
+        return await exit(1);
+      }
+
+      const remote = options["--remote"];
+
+      const branches = await getBranches(remote);
       if (!branches) {
         p.log.error("failed to fetch branches");
         return await exit(1);
@@ -42,7 +86,7 @@ const command: Command = {
       const currentBranch = await getCurrentBranch();
 
       const branch = await p.select({
-        message: "select a branch to checkout",
+        message: "select a branch",
         options: branches.map((branch) => ({
           value: branch,
           label: color.bold(
@@ -63,28 +107,14 @@ const command: Command = {
         return await exit(1);
       }
 
-      if (options["--copy"]) {
-        clipboard.writeSync(branch);
-        p.log.success(`copied ${color.green(branch)} to clipboard`);
-        return await exit(0);
-      }
+      clipboard.writeSync(branch);
+      p.log.success(`${color.green("copied to clipboard!")}`);
 
-      if (branch === currentBranch) {
-        p.log.error(`${color.red("already on branch")}`);
-        return await exit(1);
-      }
-
-      const result = await checkout(branch!);
-      if (!result) {
-        p.log.error(`failed to checkout ${color.bold(branch)}`);
-        return await exit(1);
-      }
-
-      p.log.success(`checked out ${color.green(branch)}`);
       await exit(0);
     },
     { enabled: false }
   ),
+  subCommands: [current],
 };
 
 export default command;

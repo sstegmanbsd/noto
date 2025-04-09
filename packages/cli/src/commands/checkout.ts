@@ -22,12 +22,6 @@ const command: Command = {
       alias: "-c",
       description: "copy the selected branch to clipboard",
     },
-    {
-      type: Boolean,
-      flag: "--remote",
-      alias: "-r",
-      description: "list branches including remotes",
-    },
   ],
   execute: withRepository(
     async (options) => {
@@ -39,9 +33,7 @@ const command: Command = {
         return await exit(1);
       }
 
-      const remote = options["--remote"];
-
-      const branches = await getBranches(remote);
+      const branches = await getBranches();
       if (!branches) {
         p.log.error("failed to fetch branches");
         return await exit(1);
@@ -75,11 +67,6 @@ const command: Command = {
         clipboard.writeSync(branch);
         p.log.success(`copied ${color.green(branch)} to clipboard`);
         return await exit(0);
-      }
-
-      if (remote && branch.startsWith("remotes/")) {
-        p.log.error(color.red("cannot checkout remote branch"));
-        return await exit(1);
       }
 
       if (branch === currentBranch) {

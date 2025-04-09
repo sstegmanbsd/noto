@@ -102,3 +102,12 @@ export const checkout = async (branch: string) => {
     return false;
   }
 };
+
+export const pull = async (remote?: string, branch?: string) => {
+  try {
+    const result = await git.pull();
+    return result.summary.changes;
+  } catch {
+    return false;
+  }
+};

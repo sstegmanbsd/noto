@@ -103,6 +103,18 @@ export const checkout = async (branch: string) => {
   }
 };
 
+export const deleteBranches = async (
+  branches: string[],
+  force: boolean = false
+) => {
+  try {
+    const result = await git.deleteLocalBranches(branches, force);
+    return result.success;
+  } catch {
+    return false;
+  }
+};
+
 export const pull = async (remote?: string, branch?: string) => {
   try {
     const result = await git.pull();

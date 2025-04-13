@@ -25,10 +25,10 @@
     "noto": "./bin/noto.mjs"
   },
   "scripts": {
-    "clean": "rm -rf .turbo node_modules dist",
     "build": "tsup --clean",
     "dev": "tsup --clean --watch",
-    "test": "tsup --clean && vitest"
+    "test": "tsup --clean && vitest",
+    "clean": "git clean -xdf .cache .turbo node_modules"
   },
   "files": [
     "dist",

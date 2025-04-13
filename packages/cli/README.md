@@ -118,6 +118,18 @@ To list all branches, including remote branches, use the -r flag
 noto branch -r
 ```
 
+Delete local branches:
+
+```bash
+noto branch delete
+```
+
+If you need to force delete a branch, you can use the force flag:
+
+```bash
+noto branch delete --force # simply: noto branch delete -f
+```
+
 ## Pro Tips
 
 - 🚀 Get fast commits on the fly with `noto -e -a` to streamline your workflow!

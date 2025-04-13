@@ -6,7 +6,7 @@ import dedent from "dedent";
 
 import { withRepository } from "@/middleware/git";
 
-import { getBranches, getCurrentBranch } from "@/utils/git";
+import { deleteBranches, getBranches, getCurrentBranch } from "@/utils/git";
 import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
@@ -47,6 +47,76 @@ const current: Command = {
         p.log.success(`${color.green("copied to clipboard!")}`);
       }
 
+      await exit(0);
+    },
+    { enabled: false }
+  ),
+};
+
+const del: Command = {
+  name: "delete",
+  description: "delete a branch",
+  usage: "branch delete <branch>",
+  options: [
+    {
+      type: Boolean,
+      flag: "--force",
+      alias: "-f",
+      description: "force delete a branch",
+    },
+  ],
+  execute: withRepository(
+    async (options) => {
+      if (!options.isRepo) {
+        p.log.error(
+          dedent`${color.red("no git repository found in cwd.")}
+          ${color.dim(`run ${color.cyan("`git init`")} to initialize a new repository.`)}`
+        );
+        return await exit(1);
+      }
+
+      const branches = await getBranches();
+      if (!branches) {
+        p.log.error("failed to fetch branches");
+        return await exit(1);
+      }
+
+      const selectedBranches = await p.multiselect({
+        message: "select branches to delete",
+        options: branches.map((branch) => ({
+          value: branch,
+          label: color.bold(branch),
+          hint: branch === options["--current"] ? "current branch" : undefined,
+        })),
+      });
+
+      if (p.isCancel(selectedBranches)) {
+        p.log.error("nothing selected!");
+        return await exit(1);
+      }
+
+      if (!selectedBranches) {
+        p.log.error("no branch selected");
+        return await exit(1);
+      }
+
+      const force = options["--force"];
+      const currentBranch = await getCurrentBranch();
+
+      if (currentBranch && selectedBranches.includes(currentBranch)) {
+        p.log.error("cannot delete current branch");
+        return await exit(1);
+      }
+
+      const deletedBranches = await deleteBranches(selectedBranches, force);
+
+      if (!deletedBranches) {
+        p.log.error("failed to delete branches");
+        return await exit(1);
+      }
+
+      p.log.success("branches deleted successfully");
+      
       await exit(0);
     },
     { enabled: false }
@@ -114,7 +184,7 @@ const command: Command = {
     },
     { enabled: false }
   ),
-  subCommands: [current],
+  subCommands: [current, del],
 };
 
 export default command;

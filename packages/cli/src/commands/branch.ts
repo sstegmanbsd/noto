@@ -64,6 +64,12 @@ const del: Command = {
       alias: "-f",
       description: "force delete a branch",
     },
+    {
+      type: Boolean,
+      flag: "--all",
+      alias: "-a",
+      description: "select all branches except the current one",
+    },
   ],
   execute: withRepository(
     async (options) => {
@@ -75,14 +81,18 @@ const del: Command = {
         return await exit(1);
       }
 
+      const currentBranch = await getCurrentBranch();
       const branches = await getBranches();
-      if (!branches) {
+      if (!currentBranch || !branches) {
         p.log.error("failed to fetch branches");
         return await exit(1);
       }
 
       const selectedBranches = await p.multiselect({
         message: "select branches to delete",
+        initialValues: options["--all"]
+          ? branches.filter((b) => b !== currentBranch)
+          : [],
         options: branches.map((branch) => ({
           value: branch,
           label: color.bold(branch),
@@ -101,7 +111,6 @@ const del: Command = {
       }
 
       const force = options["--force"];
-      const currentBranch = await getCurrentBranch();
 
       if (currentBranch && selectedBranches.includes(currentBranch)) {
         p.log.error("cannot delete current branch");
@@ -116,7 +125,7 @@ const del: Command = {
       }
 
       p.log.success("branches deleted successfully");
-      
+
       await exit(0);
     },
     { enabled: false }

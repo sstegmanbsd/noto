@@ -123,7 +123,8 @@ const command: Command = {
             p.log.error(color.red("failed to commit changes"));
           }
         }
-        console.log();
+
+        return await exit(0);
       },
       { enabled: false }
     )

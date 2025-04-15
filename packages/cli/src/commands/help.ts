@@ -2,6 +2,8 @@ import color from "picocolors";
 
 import { getCommand, listCommand } from "@/commands";
 
+import { exit } from "@/utils/process";
+
 import type { Command } from "@/types";
 
 const help: Command = {
@@ -34,7 +36,7 @@ const help: Command = {
         );
       });
 
-      console.log();
+      await exit(0);
     }
   },
 };

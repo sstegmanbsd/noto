@@ -1,7 +1,6 @@
 import color from "picocolors";
 
 import { getCommand, listCommand } from "@/commands";
-
 import { exit } from "@/utils/process";
 
 import type { Command } from "@/types";
@@ -15,20 +14,20 @@ const help: Command = {
 
     if (command && command.name !== "help") {
       console.log();
-      console.log(color.bold("Usage"));
+      console.log(color.bold("usage"));
       console.log(`  ${command.usage}`);
       console.log();
-      console.log(color.bold("Description"));
+      console.log(color.bold("description"));
       console.log(`  ${command.description}`);
       console.log();
     } else {
       const commands = listCommand();
 
       console.log();
-      console.log(color.bold("Usage"));
+      console.log(color.bold("usage"));
       console.log(`  noto [command] [options]`);
       console.log();
-      console.log(color.bold("Commands"));
+      console.log(color.bold("commands"));
 
       commands.forEach((command) => {
         console.log(

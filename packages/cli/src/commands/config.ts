@@ -51,7 +51,8 @@ const key: Command = {
     }));
 
     p.log.success(color.green("noto api key configured!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 
@@ -68,20 +69,10 @@ const model: Command = {
         value: model,
       })),
     });
+    
     if (p.isCancel(model)) {
       p.log.error(color.red("nothing changed!"));
       return await exit(1);
-    }
-
-    if (model === "gemini-2.5-pro-exp-03-25") {
-      const confirm = await p.confirm({
-        message:
-          "this model has a rate limit of 5 RPM (requests per minute) 50 requests per day, do you want to continue?",
-      });
-      if (p.isCancel(confirm) || !confirm) {
-        p.log.error(color.red("nothing changed!"));
-        return await exit(1);
-      }
     }
 
     await StorageManager.update((current) => ({
@@ -93,7 +84,8 @@ const model: Command = {
     }));
 
     p.log.success(color.green("model configured!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 
@@ -114,7 +106,8 @@ const reset: Command = {
     await StorageManager.clear();
 
     p.log.success(color.green("configuration reset!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 
@@ -126,7 +119,7 @@ const command: Command = {
   usage: "noto config [subcommand]",
   execute: async (options) => {
     const command = await p.select({
-      message: "Select a subcommand",
+      message: "select a subcommand",
       options: subCommands.map((cmd) => ({
         label: cmd.description,
         value: cmd.name,

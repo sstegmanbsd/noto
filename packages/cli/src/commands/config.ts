@@ -51,7 +51,8 @@ const key: Command = {
     }));
 
     p.log.success(color.green("noto api key configured!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 
@@ -83,7 +84,8 @@ const model: Command = {
     }));
 
     p.log.success(color.green("model configured!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 
@@ -104,7 +106,8 @@ const reset: Command = {
     await StorageManager.clear();
 
     p.log.success(color.green("configuration reset!"));
-    console.log();
+    
+    await exit(0);
   },
 };
 

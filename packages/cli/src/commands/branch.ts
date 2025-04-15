@@ -91,7 +91,7 @@ const del: Command = {
       const selectedBranches = await p.multiselect({
         message: "select branches to delete",
         initialValues: options["--all"]
-          ? branches.filter((b) => b !== null)
+          ? branches.filter((b) => b !== currentBranch)
           : [],
         options: branches.map((branch) => ({
           value: branch,

@@ -31,7 +31,7 @@ export default function Page() {
               v1.1 is out!
             </motion.p>
             <motion.div
-              className="gap-4 flex items-center"
+              className="flex items-center gap-4"
               initial="initial"
               animate="animate"
               variants={variants}
@@ -72,6 +72,7 @@ export default function Page() {
           </motion.div>
         </div>
         <motion.div
+          className="mt-4"
           initial="initial"
           animate="animate"
           variants={variants}

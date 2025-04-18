@@ -143,6 +143,12 @@ const command: Command = {
       alias: "-r",
       description: "list branches including remotes",
     },
+    {
+      type: Boolean,
+      flag: "--delete",
+      alias: "-d",
+      description: "delete a branch",
+    },
   ],
   execute: withRepository(
     async (options) => {
@@ -153,6 +159,8 @@ const command: Command = {
         );
         return await exit(1);
       }
+
+      if (options["--delete"]) return del.execute(options);
 
       const remote = options["--remote"];
 

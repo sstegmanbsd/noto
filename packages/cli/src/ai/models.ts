@@ -33,8 +33,7 @@ export const availableModels = Object.keys(models) as AvailableModels[];
 export const getModel = async () => {
   let model = (await StorageManager.get()).llm?.model;
 
-  // @ts-expect-error
-  if (!model || model === "gemini-2.0-pro-exp-02-05") {
+  if (!model) {
     model = defaultModel;
     await StorageManager.update((current) => ({
       ...current,

@@ -4,8 +4,7 @@ import * as React from "react";
 
 import { cn } from "@/styles/utils";
 
-export interface FigmaWrapperProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export type FigmaWrapperProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function FigmaWrapper({ className, children }: FigmaWrapperProps) {
   const wrapper = React.useRef<HTMLDivElement>(null);

@@ -18,7 +18,10 @@ export const withAuth = (
 ): Command["execute"] => {
   return async (opts) => {
     const storage = await StorageManager.get();
-    if (!storage.llm?.apiKey && options.enabled) {
+
+    const apiKey = storage.llm?.apiKey || process.env.NOTO_API_KEY;
+
+    if (!apiKey && options.enabled) {
       p.log.error(
         dedent`${color.red("noto api key is missing.")}
         ${color.dim(`run ${color.cyan("`noto config key`")} to set it up.`)}`

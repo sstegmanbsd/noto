@@ -149,6 +149,18 @@ const command: Command = {
       alias: "-d",
       description: "delete a branch",
     },
+    {
+      type: Boolean,
+      flag: "--force",
+      alias: "-f",
+      description: "force delete a branch",
+    },
+    {
+      type: Boolean,
+      flag: "--all",
+      alias: "-a",
+      description: "select all branches except the current one",
+    },
   ],
   execute: withRepository(
     async (options) => {

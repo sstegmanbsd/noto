@@ -19,7 +19,7 @@ export const withAuth = (
   return async (opts) => {
     const storage = await StorageManager.get();
 
-    const apiKey = storage.llm?.apiKey || process.env.NOTO_API_KEY;
+    const apiKey = process.env.NOTO_API_KEY || storage.llm?.apiKey;
 
     if (!apiKey && options.enabled) {
       p.log.error(

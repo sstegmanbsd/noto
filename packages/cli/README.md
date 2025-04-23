@@ -24,13 +24,41 @@ After installation, you can run `noto` from any terminal.
 
 ## Prerequisites
 
-Before using noto, you must configure your [Google Generative API](https://aistudio.google.com/app/apikey) key. Run the following command to set it up:
+Before using noto, you must configure your [Google Generative API](https://aistudio.google.com/app/apikey) key. You can now provide your API key in two ways:
+
+### 1. Using an environment variable (recommended)
+
+Set the `NOTO_API_KEY` environment variable globally os it's available across your system.
+
+#### macOS/Linux (eg., in .bashrc, .zshrc or .profile)
+
+```bash
+export NOTO_API_KEY=your_api_key_here
+```
+
+Then reload your terminal or run:
+
+```bash
+source ~/.zshrc # or ~/.bashrc or ~/.profile
+```
+
+#### Windows (Command Prompt or PowerShell):
+
+```bash
+setx NOTO_API_KEY "your_api_key_here"
+```
+
+> Note: You may need to restart your terminal (or system) for changes to take effect.
+
+### 2. Using the built-in configuration command
 
 ```bash
 noto config key # or simply noto config key YOUR_API_KEY
 ```
 
-Optionally, if you wish to configure a different Gemini model (the default model will be used if not configured), run:
+> noto will first look for the `NOTO_API_KEY` environment variable. If it's not found, it will fall back to the local configuration.
+
+You can also configure a specific Gemini mode (optional):
 
 ```bash
 noto config model

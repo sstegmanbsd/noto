@@ -11,6 +11,7 @@ export const AvailableModelsSchema = z.enum([
   "gemini-2.0-flash-exp",
   "gemini-2.0-flash-lite-preview-02-05",
   "gemini-2.5-pro-exp-03-25",
+  "gemini-2.5-flash-preview-04-17",
 ]);
 
 export type AvailableModels = z.infer<typeof AvailableModelsSchema>;

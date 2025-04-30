@@ -98,16 +98,10 @@ noto --type # or simply noto -t
 noto --type chore # or simply noto -t chore
 ```
 
-Open an interactive editor to refine the generated commit message:
+Combine all flags to specify the commit type, and apply the generated commit message in one go:
 
 ```bash
-noto --edit # or simply noto -e
-```
-
-Combine all flags to specify the commit type, open the interactive editor, and apply the generated commit message in one go:
-
-```bash
-noto --edit --type feat --apply  # or simply: noto -e -t feat -a
+noto --type feat --apply  # or simply: noto -t feat -a
 ```
 
 This command will generate a commit message for a "feat" commit, let you refine it interactively, and then apply it directly to your current commit.

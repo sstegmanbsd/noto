@@ -59,20 +59,12 @@ const command: Command = {
       alias: "-p",
       description: "commit and push the changes",
     },
-    {
-      type: Boolean,
-      flag: "--edit",
-      alias: "-e",
-      description: "edit the generated commit message",
-    },
   ],
   execute: withAuth(
     withRepository(async (options) => {
       const spin = p.spinner();
       try {
         const { diff } = options;
-
-        const isEditMode = options["--edit"];
 
         const type = options["--type"];
 
@@ -105,23 +97,21 @@ const command: Command = {
           message = INIT_COMMIT_MESSAGE;
         }
 
-        spin.stop(isEditMode ? color.white(message) : color.green(message));
+        spin.stop(color.white(message));
 
-        if (isEditMode) {
-          const editedMessage = await p.text({
-            message: "edit the generated commit message",
-            initialValue: message,
-            placeholder: message,
-          });
+        const editedMessage = await p.text({
+          message: "edit the generated commit message",
+          initialValue: message,
+          placeholder: message,
+        });
 
-          if (p.isCancel(editedMessage)) {
-            p.log.error(color.red("nothing changed!"));
-            return await exit(1);
-          }
-
-          message = editedMessage;
-          p.log.step(color.green(message));
+        if (p.isCancel(editedMessage)) {
+          p.log.error(color.red("nothing changed!"));
+          return await exit(1);
         }
+
+        message = editedMessage;
+        p.log.step(color.green(message));
 
         await StorageManager.update((current) => ({
           ...current,

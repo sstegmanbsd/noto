@@ -59,12 +59,6 @@ const command: Command = {
       alias: "-p",
       description: "commit and push the changes",
     },
-    {
-      type: Boolean,
-      flag: "--edit",
-      alias: "-e",
-      description: "edit the generated commit message",
-    },
   ],
   execute: withAuth(
     withRepository(async (options) => {
@@ -72,7 +66,7 @@ const command: Command = {
       try {
         const { diff } = options;
 
-        const isEditMode = options["--edit"];
+        const isEditMode = true;
 
         const type = options["--type"];
 

@@ -66,8 +66,6 @@ const command: Command = {
       try {
         const { diff } = options;
 
-        const isEditMode = true;
-
         const type = options["--type"];
 
         if (
@@ -99,23 +97,21 @@ const command: Command = {
           message = INIT_COMMIT_MESSAGE;
         }
 
-        spin.stop(isEditMode ? color.white(message) : color.green(message));
+        spin.stop(color.white(message));
 
-        if (isEditMode) {
-          const editedMessage = await p.text({
-            message: "edit the generated commit message",
-            initialValue: message,
-            placeholder: message,
-          });
+        const editedMessage = await p.text({
+          message: "edit the generated commit message",
+          initialValue: message,
+          placeholder: message,
+        });
 
-          if (p.isCancel(editedMessage)) {
-            p.log.error(color.red("nothing changed!"));
-            return await exit(1);
-          }
-
-          message = editedMessage;
-          p.log.step(color.green(message));
+        if (p.isCancel(editedMessage)) {
+          p.log.error(color.red("nothing changed!"));
+          return await exit(1);
         }
+
+        message = editedMessage;
+        p.log.step(color.green(message));
 
         await StorageManager.update((current) => ({
           ...current,

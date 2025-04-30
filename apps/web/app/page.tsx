@@ -81,7 +81,7 @@ export default function Page() {
           <InstallCommand />
         </motion.div>
         <motion.div
-          className="text-muted-foreground/80 [&_a]:hover:text-secondary-foreground flex justify-between gap-2 font-mono [&_a]:transition-colors"
+          className="text-muted-foreground/80 [&_a]:hover:text-secondary-foreground flex justify-between gap-2 font-mono [&_a]:transition-colors [&_a]:outline-none"
           initial="initial"
           animate="animate"
           variants={variants}

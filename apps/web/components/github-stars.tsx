@@ -55,7 +55,10 @@ export function GithubStars() {
   }, []);
 
   return (
-    <Link className="group" href="https://github.com/snelusha/noto">
+    <Link
+      className="group outline-none"
+      href="https://github.com/snelusha/noto"
+    >
       <div
         className={cn(
           "text-muted-foreground/80 flex items-center gap-2 font-mono transition-opacity duration-300 select-none group-hover:underline md:text-sm",

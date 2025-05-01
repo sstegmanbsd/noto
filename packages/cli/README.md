@@ -154,7 +154,7 @@ noto branch delete --force # simply: noto branch delete -f
 
 ## Pro Tips
 
-- 🚀 Get fast commits on the fly with `noto -e -a` to streamline your workflow!
+- 🚀 Get fast commits on the fly with `noto -a` to streamline your workflow!
 
 ## Contributing
 

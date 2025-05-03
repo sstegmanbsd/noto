@@ -42,6 +42,12 @@ const command: Command = {
       description: "generate commit message based on type",
     },
     {
+      type: String,
+      flag: "--message",
+      alias: "-m",
+      description: "provide context for the commit message",
+    },
+    {
       type: Boolean,
       flag: "--copy",
       alias: "-c",
@@ -87,12 +93,33 @@ const command: Command = {
           options.type = type;
         }
 
+        const context = options["--message"];
+        if (typeof context === "string") {
+          options.context = context;
+        } else if (typeof context === "boolean") {
+          const context = await p.text({
+            message: "provide context for the commit message",
+            placeholder: "describe the changes",
+          });
+
+          if (p.isCancel(context)) {
+            p.log.error(color.red("nothing changed!"));
+            return await exit(1);
+          }
+
+          options.context = context;
+        }
+
         spin.start("generating commit message");
 
         let message = null;
 
         if (!(await isFirstCommit())) {
-          message = await generateCommitMessage(diff, options.type);
+          message = await generateCommitMessage(
+            diff,
+            options.type,
+            options.context
+          );
         } else {
           message = INIT_COMMIT_MESSAGE;
         }

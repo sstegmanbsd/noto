@@ -74,12 +74,9 @@ export const generateCommitMessage = async (
         ${context ?? "[none]"}
         \`\`\`
 
-        
-
         \`\`\`diff
         ${diff}
-        \`\`\`
-        `,
+        \`\`\``,
       },
     ],
   });

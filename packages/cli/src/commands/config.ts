@@ -51,7 +51,7 @@ const key: Command = {
     }));
 
     p.log.success(color.green("noto api key configured!"));
-    
+
     await exit(0);
   },
 };
@@ -69,10 +69,22 @@ const model: Command = {
         value: model,
       })),
     });
-    
+
     if (p.isCancel(model)) {
       p.log.error(color.red("nothing changed!"));
       return await exit(1);
+    }
+
+    if (model === "gemini-2.5-pro-preview-05-06") {
+      const confirm = await p.confirm({
+        message:
+          "this model does not have free quota tier, do you want to continue?",
+      });
+
+      if (p.isCancel(confirm) || !confirm) {
+        p.log.error(color.red("nothing changed!"));
+        return await exit(1);
+      }
     }
 
     await StorageManager.update((current) => ({
@@ -84,7 +96,7 @@ const model: Command = {
     }));
 
     p.log.success(color.green("model configured!"));
-    
+
     await exit(0);
   },
 };
@@ -106,7 +118,7 @@ const reset: Command = {
     await StorageManager.clear();
 
     p.log.success(color.green("configuration reset!"));
-    
+
     await exit(0);
   },
 };

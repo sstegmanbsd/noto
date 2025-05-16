@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Copy, Check } from "lucide-react";
 
-import { cn } from "@/styles/utils";
+import { cn } from "~/styles/utils";
 import { FigmaWrapper } from "./figma-wrapper";
 
 export function InstallCommand() {

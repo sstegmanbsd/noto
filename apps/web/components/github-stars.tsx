@@ -4,7 +4,7 @@ import * as React from "react";
 
 import Link from "next/link";
 
-import { cn } from "@/styles/utils";
+import { cn } from "~/styles/utils";
 
 const COOKIE_NAME = "github-stars";
 const ONE_HOUR = 60 * 60 * 1000;

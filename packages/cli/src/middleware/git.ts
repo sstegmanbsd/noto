@@ -3,10 +3,10 @@ import color from "picocolors";
 
 import dedent from "dedent";
 
-import { getStagedDiff, isGitRepository } from "@/utils/git";
-import { exit } from "@/utils/process";
+import { getStagedDiff, isGitRepository } from "~/utils/git";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 interface WithRepositoryOptions {
   enabled?: boolean;
 }

@@ -1,9 +1,9 @@
 import color from "picocolors";
 
-import { getCommand, listCommand } from "@/commands";
-import { exit } from "@/utils/process";
+import { getCommand, listCommand } from "~/commands";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const help: Command = {
   name: "help",

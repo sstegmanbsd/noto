@@ -4,12 +4,12 @@ import color from "picocolors";
 import clipboard from "clipboardy";
 import dedent from "dedent";
 
-import { withRepository } from "@/middleware/git";
+import { withRepository } from "~/middleware/git";
 
-import { checkout, getCurrentBranch, getBranches } from "@/utils/git";
-import { exit } from "@/utils/process";
+import { checkout, getCurrentBranch, getBranches } from "~/utils/git";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const command: Command = {
   name: "checkout",

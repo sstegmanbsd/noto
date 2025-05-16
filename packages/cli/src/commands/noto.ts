@@ -3,17 +3,17 @@ import color from "picocolors";
 
 import clipboard from "clipboardy";
 
-import { withAuth } from "@/middleware/auth";
-import { withRepository } from "@/middleware/git";
+import { withAuth } from "~/middleware/auth";
+import { withRepository } from "~/middleware/git";
 
-import { generateCommitMessage } from "@/ai";
+import { generateCommitMessage } from "~/ai";
 
-import { StorageManager } from "@/utils/storage";
+import { StorageManager } from "~/utils/storage";
 
-import { commit, isFirstCommit, INIT_COMMIT_MESSAGE, push } from "@/utils/git";
-import { exit } from "@/utils/process";
+import { commit, isFirstCommit, INIT_COMMIT_MESSAGE, push } from "~/utils/git";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const availableTypes = [
   "chore",

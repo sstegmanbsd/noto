@@ -4,15 +4,15 @@ import color from "picocolors";
 import dedent from "dedent";
 import clipboard from "clipboardy";
 
-import { withAuth } from "@/middleware/auth";
-import { withRepository } from "@/middleware/git";
+import { withAuth } from "~/middleware/auth";
+import { withRepository } from "~/middleware/git";
 
-import { StorageManager } from "@/utils/storage";
+import { StorageManager } from "~/utils/storage";
 
-import { commit } from "@/utils/git";
-import { exit } from "@/utils/process";
+import { commit } from "~/utils/git";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const command: Command = {
   name: "prev",

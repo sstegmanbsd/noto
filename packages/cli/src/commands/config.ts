@@ -1,15 +1,15 @@
 import * as p from "@clack/prompts";
 import color from "picocolors";
 
-import { getCommand } from "@/commands";
+import { getCommand } from "~/commands";
 
-import { models } from "@/ai/models";
+import { models } from "~/ai/models";
 
-import { StorageManager } from "@/utils/storage";
-import { exit } from "@/utils/process";
+import { StorageManager } from "~/utils/storage";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
-import type { AvailableModels } from "@/ai/types";
+import type { Command } from "~/types";
+import type { AvailableModels } from "~/ai/types";
 
 const key: Command = {
   name: "key",

@@ -1,14 +1,14 @@
-import "@/styles/globals.css";
+import "~/styles/globals.css";
 
 import { OpenPanelComponent } from "@openpanel/nextjs";
 
-import { geistMono, geistSans } from "@/styles/fonts";
+import { geistMono, geistSans } from "~/styles/fonts";
 
-import { cn } from "@/styles/utils";
+import { cn } from "~/styles/utils";
 
-import { config } from "@/config";
+import { config } from "~/config";
 
-import { isProd } from "@/lib/constants";
+import { isProd } from "~/lib/constants";
 
 import type { Metadata, Viewport } from "next";
 

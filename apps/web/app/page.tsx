@@ -4,11 +4,11 @@ import Link from "next/link";
 
 import * as motion from "motion/react-client";
 
-import { InstallCommand } from "@/components/install-command";
-import { GithubStars } from "@/components/github-stars";
-import { NpmDownloads } from "@/components/npm-downloads";
+import { InstallCommand } from "~/components/install-command";
+import { GithubStars } from "~/components/github-stars";
+import { NpmDownloads } from "~/components/npm-downloads";
 
-import { cn } from "@/styles/utils";
+import { cn } from "~/styles/utils";
 
 export default function Page() {
   const variants = {

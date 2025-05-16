@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/styles/utils";
+import { cn } from "~/styles/utils";
 
 export type FigmaWrapperProps = React.HTMLAttributes<HTMLDivElement>;
 

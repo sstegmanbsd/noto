@@ -4,12 +4,12 @@ import color from "picocolors";
 import clipboard from "clipboardy";
 import dedent from "dedent";
 
-import { withRepository } from "@/middleware/git";
+import { withRepository } from "~/middleware/git";
 
-import { deleteBranches, getBranches, getCurrentBranch } from "@/utils/git";
-import { exit } from "@/utils/process";
+import { deleteBranches, getBranches, getCurrentBranch } from "~/utils/git";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const current: Command = {
   name: "current",

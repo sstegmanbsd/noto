@@ -1,11 +1,11 @@
-import noto from "@/commands/noto";
-import prev from "@/commands/prev";
-import branch from "@/commands/branch";
-import checkout from "@/commands/checkout";
-import config from "@/commands/config";
-import help from "@/commands/help";
+import noto from "~/commands/noto";
+import prev from "~/commands/prev";
+import branch from "~/commands/branch";
+import checkout from "~/commands/checkout";
+import config from "~/commands/config";
+import help from "~/commands/help";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 const commands: Command[] = [noto, prev, branch, checkout, config, help];
 

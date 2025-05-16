@@ -3,7 +3,7 @@ import { generateObject } from "ai";
 import z from "zod";
 import dedent from "dedent";
 
-import { getModel } from "@/ai/models";
+import { getModel } from "~/ai/models";
 
 export const generateCommitMessage = async (
   diff: string,

@@ -4,7 +4,7 @@ import { promises as fs } from "fs";
 
 import { z } from "zod";
 
-import { AvailableModelsSchema } from "@/ai/types";
+import { AvailableModelsSchema } from "~/ai/types";
 
 const StorageSchema = z.object({
   llm: z

@@ -1,9 +1,9 @@
 import * as p from "@clack/prompts";
 import color from "picocolors";
 
-import { parse, safeParse } from "@/utils/parser";
+import { parse, safeParse } from "~/utils/parser";
 
-import { getCommand } from "@/commands";
+import { getCommand } from "~/commands";
 
 import { version } from "package";
 

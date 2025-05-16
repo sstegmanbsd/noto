@@ -4,8 +4,9 @@ import * as React from "react";
 
 import { Copy, Check } from "lucide-react";
 
-import { cn } from "@/styles/utils";
-import { FigmaWrapper } from "./figma-wrapper";
+import { FigmaWrapper } from "~/components/figma-wrapper";
+
+import { cn } from "~/styles/utils";
 
 export function InstallCommand() {
   const [copied, setCopied] = React.useState(false);

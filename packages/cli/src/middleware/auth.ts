@@ -3,10 +3,10 @@ import color from "picocolors";
 
 import dedent from "dedent";
 
-import { StorageManager } from "@/utils/storage";
-import { exit } from "@/utils/process";
+import { StorageManager } from "~/utils/storage";
+import { exit } from "~/utils/process";
 
-import type { Command } from "@/types";
+import type { Command } from "~/types";
 
 interface WithAuthOptions {
   enabled?: boolean;

@@ -41,21 +41,21 @@
     "cli"
   ],
   "devDependencies": {
-    "@types/node": "^22.15.18",
-    "tsup": "^8.4.0",
+    "@types/node": "^22.15.19",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.4"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.18",
     "@clack/prompts": "^0.10.1",
-    "ai": "^4.3.15",
+    "ai": "^4.3.16",
     "arg": "^5.0.2",
     "clipboardy": "^4.0.0",
     "dedent": "^1.6.0",
     "picocolors": "^1.1.1",
     "simple-git": "^3.27.0",
     "tinyexec": "^0.3.2",
-    "zod": "^3.24.4"
+    "zod": "^3.25.3"
   }
 }

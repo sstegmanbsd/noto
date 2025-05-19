@@ -23,7 +23,7 @@ export const models: Record<AvailableModels, LanguageModelV1> = {
   "gemini-1.5-pro": google("gemini-1.5-pro"),
   "gemini-1.5-pro-latest": google("gemini-1.5-pro-latest"),
   "gemini-2.0-flash-001": google("gemini-2.0-flash-001"),
-  "gemini-2.0-flash-exp": google("gemini-2.0-flash-exp"),
+  "gemini-2.0-flash": google("gemini-2.0-flash"),
   "gemini-2.0-flash-lite-preview-02-05": google(
     "gemini-2.0-flash-lite-preview-02-05"
   ),

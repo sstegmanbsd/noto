@@ -10,7 +10,7 @@ const StorageSchema = z.object({
   llm: z
     .object({
       apiKey: z.string().optional(),
-      model: AvailableModelsSchema.optional(),
+      model: AvailableModelsSchema.optional().or(z.string()),
     })
     .optional(),
   lastGeneratedMessage: z.string().optional(),

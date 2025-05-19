@@ -12,8 +12,7 @@ const google = createGoogleGenerativeAI({
   apiKey: (await StorageManager.get()).llm?.apiKey ?? "api-key",
 });
 
-export const defaultModel: AvailableModels =
-  "gemini-2.0-flash-lite-preview-02-05";
+export const defaultModel: AvailableModels = "gemini-2.0-flash";
 
 export const models: Record<AvailableModels, LanguageModelV1> = {
   "gemini-1.5-flash": google("gemini-1.5-flash"),
@@ -36,23 +35,16 @@ export const availableModels = Object.keys(models) as AvailableModels[];
 export const getModel = async () => {
   let model = (await StorageManager.get()).llm?.model;
 
-  if (!model) {
+  if (!model || !availableModels.includes(model as AvailableModels)) {
     model = defaultModel;
     await StorageManager.update((current) => ({
       ...current,
       llm: {
         ...current.llm,
-        model: model as AvailableModels,
+        model: defaultModel,
       },
     }));
   }
 
-  if (!availableModels.includes(model)) {
-    throw new NotoError({
-      code: "model-not-found",
-      message: `model "${model}" not found.`,
-    });
-  }
-
-  return models[model];
+  return models[model as AvailableModels];
 };

@@ -12,8 +12,7 @@ const google = createGoogleGenerativeAI({
   apiKey: (await StorageManager.get()).llm?.apiKey ?? "api-key",
 });
 
-export const defaultModel: AvailableModels =
-  "gemini-2.0-flash-lite-preview-02-05";
+export const defaultModel: AvailableModels = "gemini-2.0-flash";
 
 export const models: Record<AvailableModels, LanguageModelV1> = {
   "gemini-1.5-flash": google("gemini-1.5-flash"),

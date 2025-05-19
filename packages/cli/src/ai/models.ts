@@ -36,23 +36,16 @@ export const availableModels = Object.keys(models) as AvailableModels[];
 export const getModel = async () => {
   let model = (await StorageManager.get()).llm?.model;
 
-  if (!model) {
+  if (!model || !availableModels.includes(model as AvailableModels)) {
     model = defaultModel;
     await StorageManager.update((current) => ({
       ...current,
       llm: {
         ...current.llm,
-        model: model as AvailableModels,
+        model: defaultModel,
       },
     }));
   }
 
-  if (!availableModels.includes(model)) {
-    throw new NotoError({
-      code: "model-not-found",
-      message: `model "${model}" not found.`,
-    });
-  }
-
-  return models[model];
+  return models[model as AvailableModels];
 };

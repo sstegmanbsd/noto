@@ -25,6 +25,8 @@ const command: Command = {
   ],
   execute: withRepository(
     async (options) => {
+      const args = options._.slice(1);
+
       if (!options.isRepo) {
         p.log.error(
           dedent`${color.red("no git repository found in cwd.")}
@@ -40,6 +42,32 @@ const command: Command = {
       }
 
       const currentBranch = await getCurrentBranch();
+
+      const branchName = args[0];
+      if (branchName) {
+        if (!branches.includes(branchName)) {
+          p.log.error(
+            `branch ${color.red(branchName)} does not exist in the repository`
+          );
+          return await exit(1);
+        }
+
+        if (branchName === currentBranch) {
+          p.log.error(
+            `${color.red("already on branch")} ${color.green(branchName)}`
+          );
+          return await exit(1);
+        }
+
+        const result = await checkout(branchName);
+        if (!result) {
+          p.log.error(`failed to checkout ${color.bold(branchName)}`);
+          return await exit(1);
+        }
+
+        p.log.success(`checked out ${color.green(branchName)}`);
+        return await exit(0);
+      }
 
       const branch = await p.select({
         message: "select a branch to checkout",

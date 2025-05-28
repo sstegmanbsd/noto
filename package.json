@@ -1,9 +1,6 @@
 {
   "name": "@snelusha/noto",
   "version": "0.0.0",
-  "devDependencies": {
-    "turbo": "^2.5.3"
-  },
   "license": "MIT",
   "packageManager": "bun@1.2.14",
   "private": true,
@@ -13,8 +10,17 @@
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "@types/node": "^22.15.23",
+      "typescript": "^5.8.3"
+    }
+  },
+  "devDependencies": {
+    "turbo": "^2.5.3"
+  }
 }

@@ -1,12 +1,9 @@
 {
   "name": "@snelusha/noto",
   "version": "0.0.0",
-  "devDependencies": {
-    "turbo": "^2.5.3"
-  },
   "license": "MIT",
   "packageManager": "bun@1.2.14",
-  "private": false,
+  "private": true,
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
@@ -22,5 +19,8 @@
       "@types/node": "^22.15.23",
       "typescript": "^5.8.3"
     }
+  },
+  "devDependencies": {
+    "turbo": "^2.5.3"
   }
 }

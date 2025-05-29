@@ -2,7 +2,7 @@
   "name": "@snelusha/noto",
   "version": "0.0.0",
   "license": "MIT",
-  "packageManager": "bun@1.2.14",
+  "packageManager": "bun@1.2.15",
   "private": true,
   "scripts": {
     "dev": "turbo dev",
@@ -21,6 +21,6 @@
     }
   },
   "devDependencies": {
-    "turbo": "^2.5.3"
+    "turbo": "^2.5.4"
   }
 }

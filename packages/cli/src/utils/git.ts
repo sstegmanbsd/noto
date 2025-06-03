@@ -96,7 +96,16 @@ export const getBranches = async (remote?: boolean) => {
 
 export const checkout = async (branch: string) => {
   try {
-    await git.checkout(branch);
+    await git.checkout(branch, {});
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const checkoutLocalBranch = async (branch: string) => {
+  try {
+    await git.checkoutLocalBranch(branch);
     return true;
   } catch {
     return false;

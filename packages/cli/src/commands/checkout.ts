@@ -6,7 +6,12 @@ import dedent from "dedent";
 
 import { withRepository } from "~/middleware/git";
 
-import { checkout, getCurrentBranch, getBranches } from "~/utils/git";
+import {
+  checkout,
+  getCurrentBranch,
+  getBranches,
+  checkoutLocalBranch,
+} from "~/utils/git";
 import { exit } from "~/utils/process";
 
 import type { Command } from "~/types";
@@ -21,6 +26,12 @@ const command: Command = {
       flag: "--copy",
       alias: "-c",
       description: "copy the selected branch to clipboard",
+    },
+    {
+      type: Boolean,
+      flag: "--create",
+      alias: "-b",
+      description: "create a new branch",
     },
   ],
   execute: withRepository(
@@ -44,6 +55,26 @@ const command: Command = {
       const currentBranch = await getCurrentBranch();
 
       const branchName = args[0];
+      if (options["--create"]) {
+        if (branches.includes(branchName)) {
+          p.log.error(
+            `branch ${color.red(branchName)} already exists in the repository`
+          );
+          return await exit(1);
+        }
+
+        const result = await checkoutLocalBranch(branchName);
+        if (!result) {
+          p.log.error(
+            `failed to create and checkout ${color.bold(branchName)}`
+          );
+          return await exit(1);
+        }
+
+        p.log.success(`created and checked out ${color.green(branchName)}`);
+        return await exit(0);
+      }
+
       if (branchName) {
         if (!branches.includes(branchName)) {
           p.log.error(

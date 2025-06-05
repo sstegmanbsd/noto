@@ -80,6 +80,29 @@ const command: Command = {
           p.log.error(
             `branch ${color.red(branchName)} does not exist in the repository`
           );
+
+          const createBranch = await p.confirm({
+            message: `do you want to create branch ${color.green(branchName)}?`,
+          });
+
+          if (p.isCancel(createBranch)) {
+            p.log.error("aborted");
+            return await exit(1);
+          }
+
+          if (createBranch) {
+            const result = await checkoutLocalBranch(branchName);
+            if (!result) {
+              p.log.error(
+                `failed to create and checkout ${color.bold(branchName)}`
+              );
+              return await exit(1);
+            }
+
+            p.log.success(`created and checked out ${color.green(branchName)}`);
+            return await exit(0);
+          }
+
           return await exit(1);
         }
 

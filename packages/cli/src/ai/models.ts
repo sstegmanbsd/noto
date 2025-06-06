@@ -6,8 +6,6 @@ import type { LanguageModelV1 } from "ai";
 
 import type { AvailableModels } from "~/ai/types";
 
-import { NotoError } from "~/errors";
-
 const google = createGoogleGenerativeAI({
   apiKey: (await StorageManager.get()).llm?.apiKey ?? "api-key",
 });

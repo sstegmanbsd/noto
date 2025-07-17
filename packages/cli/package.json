@@ -44,18 +44,18 @@
     "@types/node": "catalog:",
     "tsup": "^8.5.0",
     "typescript": "catalog:",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.2.19",
+    "@ai-sdk/google": "^1.2.22",
     "@clack/prompts": "^0.10.1",
-    "ai": "^4.3.16",
+    "ai": "^4.3.19",
     "arg": "^5.0.2",
     "clipboardy": "^4.0.0",
     "dedent": "^1.6.0",
     "picocolors": "^1.1.1",
     "simple-git": "^3.28.0",
     "tinyexec": "^0.3.2",
-    "zod": "^3.25.57"
+    "zod": "^3.25.76"
   }
 }

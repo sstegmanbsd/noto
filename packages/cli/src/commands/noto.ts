@@ -65,6 +65,11 @@ const command: Command = {
       alias: "-p",
       description: "commit and push the changes",
     },
+    {
+      type: Boolean,
+      flag: "--manual",
+      description: "commit and push the changes",
+    },
   ],
   execute: withAuth(
     withRepository(async (options) => {
@@ -72,6 +77,36 @@ const command: Command = {
       try {
         const { diff } = options;
 
+        const manual = options["--manual"];
+        if (manual) {
+          const message = await p.text({
+            message: "edit the generated commit message",
+            placeholder: "chore: init repo",
+          });
+
+          if (p.isCancel(message)) {
+            p.log.error(color.red("nothing changed!"));
+            return await exit(1);
+          }
+
+          p.log.step(color.green(message));
+
+          await StorageManager.update((current) => ({
+            ...current,
+            lastGeneratedMessage: message,
+          }));
+
+          if (options["--apply"]) {
+            const success = await commit(message);
+            if (success) {
+              p.log.step(color.dim("commit successful"));
+            } else {
+              p.log.error(color.red("failed to commit changes"));
+            }
+          }
+
+          return await exit(0);
+        }
         const type = options["--type"];
 
         if (
@@ -118,7 +153,7 @@ const command: Command = {
           message = await generateCommitMessage(
             diff,
             options.type,
-            options.context
+            options.context,
           );
         } else {
           message = INIT_COMMIT_MESSAGE;
@@ -173,7 +208,7 @@ const command: Command = {
         spin.stop(color.red("failed to generate commit message"), 1);
         return await exit(1);
       }
-    })
+    }),
   ),
 };
 

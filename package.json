@@ -2,7 +2,7 @@
   "name": "@snelusha/noto",
   "version": "0.0.0",
   "license": "MIT",
-  "packageManager": "bun@1.2.18",
+  "packageManager": "bun@1.2.19",
   "private": true,
   "scripts": {
     "dev": "turbo dev",
@@ -24,6 +24,6 @@
     "turbo": "^2.5.5"
   },
   "dependencies": {
-    "zod": "^4.0.5"
+    "zod": "^4.0.8"
   }
 }

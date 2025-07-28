@@ -44,10 +44,8 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
           if [[ "$TAG" =~ -(next|canary|beta|rc) ]]; then
-            # Extract pre-release tag (e.g., beta, rc)
             NPM_TAG=${BASH_REMATCH[1]}
           else
-            # Check if the commit is on the main branch
             git fetch origin main
             if git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
               NPM_TAG="latest"
@@ -62,6 +60,6 @@ jobs:
 
       - name: Publish to npm
         working-directory: packages/cli
-        run: bun publish --access public --tag ${{ steps.determine_npm_tag.outputs.npm_tag }}
+        run: bun publish --provenance --access public --tag ${{ steps.determine_npm_tag.outputs.npm_tag }}
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}

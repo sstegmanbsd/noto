@@ -96,13 +96,11 @@ const command: Command = {
             lastGeneratedMessage: message,
           }));
 
-          if (options["--apply"]) {
-            const success = await commit(message);
-            if (success) {
-              p.log.step(color.dim("commit successful"));
-            } else {
-              p.log.error(color.red("failed to commit changes"));
-            }
+          const success = await commit(message);
+          if (success) {
+            p.log.step(color.dim("commit successful"));
+          } else {
+            p.log.error(color.red("failed to commit changes"));
           }
 
           return await exit(0);

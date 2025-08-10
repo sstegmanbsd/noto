@@ -8,7 +8,7 @@ import { getModel } from "~/ai/models";
 export const generateCommitMessage = async (
   diff: string,
   type?: string,
-  context?: string
+  context?: string,
 ) => {
   const model = await getModel();
 

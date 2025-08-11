@@ -2,7 +2,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
 import { StorageManager } from "~/utils/storage";
 
-import type { LanguageModel } from "ai";
+import type { LanguageModelV2 } from "@ai-sdk/provider";
 
 import type { AvailableModels } from "~/ai/types";
 
@@ -12,7 +12,7 @@ const google = createGoogleGenerativeAI({
 
 export const defaultModel: AvailableModels = "gemini-2.0-flash";
 
-export const models: Record<AvailableModels, LanguageModel> = {
+export const models: Record<AvailableModels, LanguageModelV2> = {
   "gemini-1.5-flash": google("gemini-1.5-flash"),
   "gemini-1.5-flash-latest": google("gemini-1.5-flash-latest"),
   "gemini-1.5-flash-8b": google("gemini-1.5-flash-8b"),

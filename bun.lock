@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "@snelusha/noto",
+      "dependencies": {
+        "@ai-sdk/provider": "^2.0.0",
+      },
       "devDependencies": {
         "turbo": "^2.5.5",
       },

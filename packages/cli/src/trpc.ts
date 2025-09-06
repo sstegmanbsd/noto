@@ -21,7 +21,7 @@ export const t = trpcServer.initTRPC.meta<Meta>().create({
   defaultMeta: {
     authRequired: true,
     repoRequired: true,
-    diffRequired: true,
+    diffRequired: false,
   },
 });
 

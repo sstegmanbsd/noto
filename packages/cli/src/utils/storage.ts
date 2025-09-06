@@ -21,7 +21,7 @@ export type Storage = z.infer<typeof StorageSchema>;
 export class StorageManager {
   private static readonly storagePath: string = resolve(
     join(os.homedir(), ".noto"),
-    "storage.sithi"
+    "storage.sithi",
   );
 
   private static storage: Storage = {};
@@ -53,7 +53,7 @@ export class StorageManager {
   }
 
   public static async update(
-    updater: (current: Storage) => Storage | Promise<Storage>
+    updater: (current: Storage) => Storage | Promise<Storage>,
   ): Promise<Storage> {
     try {
       const updatedStorage = await updater(this.storage);

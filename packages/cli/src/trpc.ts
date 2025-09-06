@@ -12,6 +12,7 @@ import { exit } from "~/utils/process";
 import type { TrpcCliMeta } from "trpc-cli";
 
 export type Meta = TrpcCliMeta & {
+  intro?: boolean;
   authRequired?: boolean;
   repoRequired?: boolean;
   diffRequired?: boolean;
@@ -19,15 +20,14 @@ export type Meta = TrpcCliMeta & {
 
 export const t = trpcServer.initTRPC.meta<Meta>().create({
   defaultMeta: {
+    intro: true,
     authRequired: true,
     repoRequired: true,
     diffRequired: false,
   },
 });
 
-export const baseProcedure = t.procedure;
-
-export const authProcedure = baseProcedure.use(async (opts) => {
+export const authMiddleware = t.middleware(async (opts) => {
   const { meta, next } = opts;
 
   const storage = await StorageManager.get();
@@ -44,7 +44,7 @@ export const authProcedure = baseProcedure.use(async (opts) => {
   return next();
 });
 
-export const gitProcedure = baseProcedure.use(async (opts) => {
+export const gitMiddleware = t.middleware(async (opts) => {
   const { meta, next } = opts;
 
   const isRepository = await isGitRepository();
@@ -60,7 +60,7 @@ export const gitProcedure = baseProcedure.use(async (opts) => {
   if (meta?.diffRequired && !diff) {
     p.log.error(
       dedent`${color.red("no staged changes found.")}
-          ${color.dim(`stage your changes with ${color.cyan("`git add <file>`")}`)}`,
+          ${color.dim(`run ${color.cyan("`git add <file>`")} or ${color.cyan("`git add .`")} to stage changes.`)}`,
     );
     return await exit(1);
   }
@@ -75,4 +75,21 @@ export const gitProcedure = baseProcedure.use(async (opts) => {
   });
 });
 
-export const authedGitProcedure = authProcedure.concat(gitProcedure);
+export const baseProcedure = t.procedure.use((opts) => {
+  const { meta, next } = opts;
+
+  if (meta?.intro) {
+    console.log();
+    p.intro(`${color.bgCyan(color.black(" @snelusha/noto "))}`);
+  }
+
+  return next();
+});
+
+export const authProcedure = baseProcedure.use(authMiddleware);
+
+export const gitProcedure = baseProcedure.use(gitMiddleware);
+
+export const authedGitProcedure = baseProcedure
+  .use(authMiddleware)
+  .use(gitMiddleware);

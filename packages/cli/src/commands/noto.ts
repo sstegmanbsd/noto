@@ -55,7 +55,7 @@ export const noto = authedGitProcedure
         .boolean()
         .meta({ description: "commit and push the changes", alias: "p" }),
       force: z.boolean().meta({
-        description: "force cache the commit message generation",
+        description: "bypass cache and force regeneration of commit message",
         alias: "f",
       }),
       manual: z.boolean().meta({ description: "custom commit message" }),

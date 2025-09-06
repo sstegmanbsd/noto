@@ -31,6 +31,7 @@ const commitTypeOptions = availableTypes.map((type) => ({
 export const noto = authedGitProcedure
   .meta({
     description: "generate a commit message",
+    default: true,
     diffRequired: true,
   })
   .input(

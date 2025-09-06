@@ -1,19 +1,55 @@
-import { generateObject } from "ai";
+import { generateObject, wrapLanguageModel } from "ai";
 
 import z from "zod";
 import dedent from "dedent";
+import superjson from "superjson";
 
 import { getModel } from "~/ai/models";
+import { hashString } from "~/utils/hash";
+import { StorageManager } from "~/utils/storage";
+
+import type { LanguageModelV2Middleware } from "@ai-sdk/provider";
+
+const cacheMiddleware: LanguageModelV2Middleware = {
+  wrapGenerate: async ({ doGenerate, params }) => {
+    const key = hashString(JSON.stringify(params));
+
+    const cache = (await StorageManager.get()).cache;
+    if (cache && key in cache) {
+      const cached = cache[key];
+      return superjson.parse(cached);
+    }
+
+    const result = await doGenerate();
+
+    await StorageManager.update((current) => {
+      return {
+        ...current,
+        cache: {
+          [key]: superjson.stringify(result),
+        },
+      };
+    });
+
+    return result;
+  },
+};
 
 export const generateCommitMessage = async (
   diff: string,
   type?: string,
   context?: string,
+  forceCache: boolean = false,
 ) => {
   const model = await getModel();
 
   const { object } = await generateObject({
-    model: model,
+    model: !forceCache
+      ? wrapLanguageModel({
+          model,
+          middleware: cacheMiddleware,
+        })
+      : model,
     schema: z.object({
       message: z.string(),
     }),

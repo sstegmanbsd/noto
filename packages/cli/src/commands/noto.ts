@@ -54,6 +54,10 @@ export const noto = authedGitProcedure
       push: z
         .boolean()
         .meta({ description: "commit and push the changes", alias: "p" }),
+      force: z.boolean().meta({
+        description: "bypass cache and force regeneration of commit message",
+        alias: "f",
+      }),
       manual: z.boolean().meta({ description: "custom commit message" }),
     }),
   )
@@ -90,6 +94,7 @@ export const noto = authedGitProcedure
 
         return await exit(0);
       }
+
       let type = input.type;
 
       if (
@@ -133,8 +138,9 @@ export const noto = authedGitProcedure
       if (!(await isFirstCommit())) {
         message = await generateCommitMessage(
           ctx.git.diff as string,
-          type,
+          type as string,
           typeof context === "string" ? context : undefined,
+          input.force,
         );
       } else {
         message = INIT_COMMIT_MESSAGE;

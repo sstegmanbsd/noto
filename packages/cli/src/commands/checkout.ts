@@ -21,14 +21,13 @@ export const checkout = gitProcedure
   })
   .input(
     z.object({
-      copy: z
-        .boolean()
-        .meta({
-          description: "copy the selected branch to clipboard",
-          alias: "c",
-        }),
+      copy: z.boolean().meta({
+        description: "copy the selected branch to clipboard",
+        alias: "c",
+      }),
       create: z
-        .boolean()
+        .union([z.boolean(), z.string()])
+        .optional()
         .meta({ description: "create a new branch", alias: "b" }),
       branch: z.string().optional().meta({ positional: true }),
     }),
@@ -44,34 +43,39 @@ export const checkout = gitProcedure
 
     const currentBranch = await getCurrentBranch();
 
-    const branchName = input.branch;
+    const targetBranch =
+      typeof input.create === "string" ? input.create : input.branch;
+    const createFlag =
+      input.create === true || typeof input.create === "string";
 
-    if (input.create && branchName) {
-      if (branches.includes(branchName)) {
+    if (createFlag && targetBranch) {
+      if (branches.includes(targetBranch)) {
         p.log.error(
-          `branch ${color.red(branchName)} already exists in the repository`,
+          `branch ${color.red(targetBranch)} already exists in the repository`,
         );
         return await exit(1);
       }
 
-      const result = await checkoutLocalBranch(branchName);
+      const result = await checkoutLocalBranch(targetBranch);
       if (!result) {
-        p.log.error(`failed to create and checkout ${color.bold(branchName)}`);
+        p.log.error(
+          `failed to create and checkout ${color.bold(targetBranch)}`,
+        );
         return await exit(1);
       }
 
-      p.log.success(`created and checked out ${color.green(branchName)}`);
+      p.log.success(`created and checked out ${color.green(targetBranch)}`);
       return await exit(0);
     }
 
-    if (branchName) {
-      if (!branches.includes(branchName)) {
+    if (targetBranch) {
+      if (!branches.includes(targetBranch)) {
         p.log.error(
-          `branch ${color.red(branchName)} does not exist in the repository`,
+          `branch ${color.red(targetBranch)} does not exist in the repository`,
         );
 
         const createBranch = await p.confirm({
-          message: `do you want to create branch ${color.green(branchName)}?`,
+          message: `do you want to create branch ${color.green(targetBranch)}?`,
         });
 
         if (p.isCancel(createBranch)) {
@@ -80,35 +84,35 @@ export const checkout = gitProcedure
         }
 
         if (createBranch) {
-          const result = await checkoutLocalBranch(branchName);
+          const result = await checkoutLocalBranch(targetBranch);
           if (!result) {
             p.log.error(
-              `failed to create and checkout ${color.bold(branchName)}`,
+              `failed to create and checkout ${color.bold(targetBranch)}`,
             );
             return await exit(1);
           }
 
-          p.log.success(`created and checked out ${color.green(branchName)}`);
+          p.log.success(`created and checked out ${color.green(targetBranch)}`);
           return await exit(0);
         }
 
         return await exit(1);
       }
 
-      if (branchName === currentBranch) {
+      if (targetBranch === currentBranch) {
         p.log.error(
-          `${color.red("already on branch")} ${color.green(branchName)}`,
+          `${color.red("already on branch")} ${color.green(targetBranch)}`,
         );
         return await exit(1);
       }
 
-      const result = await checkoutBranch(branchName);
+      const result = await checkoutBranch(targetBranch);
       if (!result) {
-        p.log.error(`failed to checkout ${color.bold(branchName)}`);
+        p.log.error(`failed to checkout ${color.bold(targetBranch)}`);
         return await exit(1);
       }
 
-      p.log.success(`checked out ${color.green(branchName)}`);
+      p.log.success(`checked out ${color.green(targetBranch)}`);
       return await exit(0);
     }
 

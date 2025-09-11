@@ -5,6 +5,8 @@ import color from "picocolors";
 
 import clipboard from "clipboardy";
 
+import { APICallError, RetryError } from "ai";
+
 import { authedGitProcedure } from "~/trpc";
 
 import { generateCommitMessage } from "~/ai";
@@ -191,8 +193,25 @@ export const noto = authedGitProcedure
       }
 
       return await exit(0);
-    } catch {
-      spin.stop(color.red("failed to generate commit message"), 1);
-      return await exit(1);
+    } catch (e) {
+      let msg: string | undefined;
+
+      if (RetryError.isInstance(e) && APICallError.isInstance(e.lastError)) {
+        msg = safeParseErrorMessage(e.lastError.responseBody);
+      }
+
+      const suffix = msg ? `\n${msg}` : "";
+      spin.stop(color.red(`failed to generate commit message${suffix}`), 1);
+      await exit(1);
     }
   });
+
+function safeParseErrorMessage(body: unknown): string | undefined {
+  if (typeof body !== "string") return;
+  try {
+    const parsed = JSON.parse(body);
+    return parsed?.error?.message ?? parsed?.message;
+  } catch {
+    return;
+  }
+}

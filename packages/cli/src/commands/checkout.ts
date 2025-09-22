@@ -116,6 +116,11 @@ export const checkout = gitProcedure
       return await exit(0);
     }
 
+    if (branches.length === 0) {
+      p.log.error("no branches found in the repository");
+      return await exit(1);
+    }
+
     const branch = await p.select({
       message: "select a branch to checkout",
       options: branches.map((branch) => ({

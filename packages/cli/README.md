@@ -128,28 +128,10 @@ Switch between branches in you git repo with an interactive prompt:
 noto checkout
 ```
 
-To copy the selected branch to your clipboard immediately after choosing it, use the new `-c` flag:
+Create and switch to a new branch:
 
 ```bash
-noto branch
-```
-
-To list all branches, including remote branches, use the -r flag
-
-```bash
-noto branch -r
-```
-
-Delete local branches:
-
-```bash
-noto branch delete
-```
-
-If you need to force delete a branch, you can use the force flag:
-
-```bash
-noto branch delete --force # simply: noto branch delete -f
+noto checkout -b new-branch-name
 ```
 
 ## Pro Tips

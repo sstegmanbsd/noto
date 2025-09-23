@@ -21,8 +21,8 @@ export type Storage = z.infer<typeof StorageSchema>;
 
 export class StorageManager {
   private static readonly storagePath: string = resolve(
-    join(os.homedir(), ".noto"),
-    "storage.sithi",
+    join(os.homedir(), ".config", "noto"),
+    ".notorc",
   );
 
   private static storage: Storage = {};

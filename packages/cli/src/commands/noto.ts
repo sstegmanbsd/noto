@@ -35,6 +35,7 @@ export const noto = authedGitProcedure
     description: "generate a commit message",
     default: true,
     diffRequired: true,
+    promptRequired: true,
   })
   .input(
     z.object({

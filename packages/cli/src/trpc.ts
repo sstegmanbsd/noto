@@ -7,9 +7,9 @@ import color from "picocolors";
 
 import dedent from "dedent";
 
-import { getGitRoot, getStagedDiff, isGitRepository } from "~/utils/git";
+import { getStagedDiff, isGitRepository } from "~/utils/git";
 import { StorageManager } from "~/utils/storage";
-import { findUp } from "~/utils/fs";
+import { getPromptFile } from "~/utils/prompt";
 import { exit } from "~/utils/process";
 
 import type { TrpcCliMeta } from "trpc-cli";
@@ -73,11 +73,7 @@ export const gitMiddleware = t.middleware(async (opts) => {
   let prompt: string | null = null;
 
   if (meta?.promptRequired) {
-    const root = await getGitRoot();
-    const promptPath = await findUp(".noto/commit-prompt.md", {
-      stopAt: root || process.cwd(),
-      type: "file",
-    });
+    const promptPath = await getPromptFile();
 
     if (promptPath) {
       try {

@@ -125,7 +125,7 @@ export const noto = authedGitProcedure
           placeholder: "describe the changes",
         });
 
-        if (p.isCancel(context)) {
+        if (p.isCancel(enteredContext)) {
           p.log.error(color.red("nothing changed!"));
           return await exit(1);
         }

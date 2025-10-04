@@ -22,6 +22,7 @@ export async function findUp(name: string, options: FindUpOptions = {}) {
     try {
       const stats = await fs.stat(filePath);
       if (
+        options.type === undefined ||
         (options.type === "file" && stats.isFile()) ||
         (options.type === "directory" && stats.isDirectory())
       )

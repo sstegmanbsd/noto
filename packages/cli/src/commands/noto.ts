@@ -25,23 +25,15 @@ const availableTypes = [
   "test",
 ];
 
-const commitTypeOptions = availableTypes.map((type) => ({
-  label: type,
-  value: type,
-}));
-
 export const noto = authedGitProcedure
   .meta({
     description: "generate a commit message",
     default: true,
     diffRequired: true,
+    promptRequired: true,
   })
   .input(
     z.object({
-      type: z.string().or(z.boolean()).meta({
-        description: "generate commit message based on type",
-        alias: "t",
-      }),
       message: z.string().or(z.boolean()).meta({
         description: "provide context for commit message",
         alias: "m",
@@ -97,25 +89,6 @@ export const noto = authedGitProcedure
         return await exit(0);
       }
 
-      let type = input.type;
-
-      if (
-        (typeof type === "string" && !availableTypes.includes(type)) ||
-        (typeof type === "boolean" && type === true)
-      ) {
-        const selectedType = await p.select({
-          message: "select the type of commit message",
-          options: commitTypeOptions,
-        });
-
-        if (p.isCancel(type)) {
-          p.log.error(color.red("nothing selected!"));
-          return await exit(1);
-        }
-
-        type = selectedType as string;
-      }
-
       let context = input.message;
       if (typeof context === "string") {
         context = context.trim();
@@ -140,7 +113,7 @@ export const noto = authedGitProcedure
       if (!(await isFirstCommit())) {
         message = await generateCommitMessage(
           ctx.git.diff as string,
-          type as string,
+          ctx.noto.prompt as string,
           typeof context === "string" ? context : undefined,
           input.force,
         );

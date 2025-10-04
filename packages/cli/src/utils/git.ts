@@ -34,6 +34,15 @@ export const isFirstCommit = async () => {
   return count === 0;
 };
 
+export const getCommits = async (limit: number = 10) => {
+  try {
+    const log = await git.log({ maxCount: limit });
+    return log.all.map((c) => c.message);
+  } catch {
+    return null;
+  }
+};
+
 export const getBranch = async () => {
   try {
     return git.raw(["rev-parse", "--abbrev-ref", "HEAD"]);

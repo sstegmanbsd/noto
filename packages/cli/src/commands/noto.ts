@@ -11,7 +11,7 @@ import { authedGitProcedure } from "~/trpc";
 
 import { generateCommitMessage } from "~/ai";
 
-import { commit, isFirstCommit, INIT_COMMIT_MESSAGE, push } from "~/utils/git";
+import { commit, push } from "~/utils/git";
 import { StorageManager } from "~/utils/storage";
 import { exit } from "~/utils/process";
 
@@ -100,16 +100,12 @@ export const noto = authedGitProcedure
 
       let message = null;
 
-      if (!(await isFirstCommit())) {
-        message = await generateCommitMessage(
-          ctx.git.diff as string,
-          ctx.noto.prompt as string,
-          typeof context === "string" ? context : undefined,
-          input.force,
-        );
-      } else {
-        message = INIT_COMMIT_MESSAGE;
-      }
+      message = await generateCommitMessage(
+        ctx.git.diff as string,
+        ctx.noto.prompt as string,
+        typeof context === "string" ? context : undefined,
+        input.force,
+      );
 
       spin.stop(color.white(message));
 

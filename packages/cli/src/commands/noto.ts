@@ -15,16 +15,6 @@ import { commit, isFirstCommit, INIT_COMMIT_MESSAGE, push } from "~/utils/git";
 import { StorageManager } from "~/utils/storage";
 import { exit } from "~/utils/process";
 
-const availableTypes = [
-  "chore",
-  "feat",
-  "fix",
-  "docs",
-  "refactor",
-  "perf",
-  "test",
-];
-
 export const noto = authedGitProcedure
   .meta({
     description: "generate a commit message",

@@ -90,22 +90,6 @@ Copy the generated commit message to your clipboard:
 noto --copy # or simply noto -c
 ```
 
-Specify the commit type for your commit message:
-
-```bash
-noto --type # or simply noto -t
-
-noto --type chore # or simply noto -t chore
-```
-
-Combine all flags to specify the commit type, and apply the generated commit message in one go:
-
-```bash
-noto --type feat --apply  # or simply: noto -t feat -a
-```
-
-This command will generate a commit message for a "feat" commit, let you refine it interactively, and then apply it directly to your current commit.
-
 Retrieve the previously generated commit message:
 
 ```bash

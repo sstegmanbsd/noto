@@ -1,4 +1,4 @@
-import { z } from "trpc-cli";
+import { z } from "zod";
 
 import * as p from "@clack/prompts";
 import color from "picocolors";
